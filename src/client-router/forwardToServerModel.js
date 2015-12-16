@@ -1,5 +1,3 @@
-// import { Observable } from 'rxjs/Rx.KitchenSink';
-// import { Observable } from 'rx';
 import toPathValues from './toPathValues';
 
 function forwardToServerModel(pathSet) {

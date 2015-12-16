@@ -42,7 +42,6 @@ export default json => {
         }
       }
     } else if (value && (value.constructor === Array)) {
-      console.log('in Array ............................');
       pushValue($ref(value));
     } else {
       pushValue(value);

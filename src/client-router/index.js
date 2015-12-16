@@ -7,7 +7,7 @@ class ClientRouter extends Router.createClass([
   constructor(serverModel) {
     super();
     this.serverModel = serverModel;
-    // this.userId = userId;
+    // TODO this.userId = userId;
   }
 }
 

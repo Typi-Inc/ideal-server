@@ -205,47 +205,47 @@ describe('toPathValues', () => {
       expect(result[i]).to.deep.equal(expected[i]);
     }
   });
-  it('works with refs', () => {
-    const json = {
-      json: {
-        dealsById: {
-          '\u001ekey': 'dealsById',
-          '\u001eparent': null,
-          '1f6527f3-c99d-4ff0-b31f-09cb793b966f': {
-            '\u001ekey': '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
-            '\u001eparent': {},
-            comments: {
-              '0': {
-                '\u001epath': ['commentsById', 'be27b66e-31c0-4b8c-a866-f0dcb02e3781'],
-                text: 'hello Iam second comment here as well'
-              },
-              '1': {
-                '\u001epath': ['commentsById', '5f427605-01dd-4051-bfa0-a895abf0459e'],
-                text: 'hello Iam first comment'
-              },
-              '\u001ekey': 'comments',
-              '\u001eparent': {}
-            }
-          }
-        }
-      }
-    };
-    const expected = [
-      {
-        path: ['dealsById', '1f6527f3-c99d-4ff0-b31f-09cb793b966f', 'comments', '0'],
-        value: $ref(['commentsById', 'be27b66e-31c0-4b8c-a866-f0dcb02e3781'])
-      },
-      {
-        path: ['dealsById', '1f6527f3-c99d-4ff0-b31f-09cb793b966f', 'comments', '1'],
-        value: $ref(['commentsById', '5f427605-01dd-4051-bfa0-a895abf0459e'])
-      }
-    ];
-    const result = toPathValues(json);
-    expect(result.length).to.equal(expected.length);
-    for (let i = 0; i < result.length; i++) {
-      expect(result[i]).to.deep.equal(expected[i]);
-    }
-  });
+  // it('works with refs', () => {
+  //   const json = {
+  //     json: {
+  //       dealsById: {
+  //         '\u001ekey': 'dealsById',
+  //         '\u001eparent': null,
+  //         '1f6527f3-c99d-4ff0-b31f-09cb793b966f': {
+  //           '\u001ekey': '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
+  //           '\u001eparent': {},
+  //           comments: {
+  //             '0': {
+  //               '\u001epath': ['commentsById', 'be27b66e-31c0-4b8c-a866-f0dcb02e3781'],
+  //               text: 'hello Iam second comment here as well'
+  //             },
+  //             '1': {
+  //               '\u001epath': ['commentsById', '5f427605-01dd-4051-bfa0-a895abf0459e'],
+  //               text: 'hello Iam first comment'
+  //             },
+  //             '\u001ekey': 'comments',
+  //             '\u001eparent': {}
+  //           }
+  //         }
+  //       }
+  //     }
+  //   };
+  //   const expected = [
+  //     {
+  //       path: ['dealsById', '1f6527f3-c99d-4ff0-b31f-09cb793b966f', 'comments', '0'],
+  //       value: $ref(['commentsById', 'be27b66e-31c0-4b8c-a866-f0dcb02e3781'])
+  //     },
+  //     {
+  //       path: ['dealsById', '1f6527f3-c99d-4ff0-b31f-09cb793b966f', 'comments', '1'],
+  //       value: $ref(['commentsById', '5f427605-01dd-4051-bfa0-a895abf0459e'])
+  //     }
+  //   ];
+  //   const result = toPathValues(json);
+  //   expect(result.length).to.equal(expected.length);
+  //   for (let i = 0; i < result.length; i++) {
+  //     expect(result[i]).to.deep.equal(expected[i]);
+  //   }
+  // });
   it('works with refs from serverModel', () => {
     const json = {
       json: {
