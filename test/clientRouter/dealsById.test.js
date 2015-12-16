@@ -209,7 +209,6 @@ describe('dealsById falcor routes', () => {
         'company'
       ]).
       subscribe(res => {
-        console.log(res);
         const company = res.json.
           dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].company;
         expect(company.length).to.equal(2);
