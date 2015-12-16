@@ -1,8 +1,9 @@
 import Router from 'falcor-router';
-import dealsById from './dealsById';
+import generator from './byIdGenerator';
+// import dealsById from './dealsById';
 
 class ClientRouter extends Router.createClass([
-  ...dealsById
+  ...generator('deals')
 ]) {
   constructor(serverModel) {
     super();
