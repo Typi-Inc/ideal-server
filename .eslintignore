@@ -1,0 +1,6 @@
+# Package dependencies
+node_modules/*
+public/build/*
+coverage/*
+build/*
+dist/*
