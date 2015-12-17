@@ -43,6 +43,7 @@ const dealsById = [
       return Observable.fromPromise(
         this.Deal.
           getAll(...ids).
+          // TODO pluck('id').
           getJoin({
             comments: {
               _apply: seq => seq.
@@ -61,6 +62,27 @@ const dealsById = [
       ).map(({ id, comment, index }) => ({
         path: ['dealsById', id, 'comments', 'edges', range[index]],
         value: $ref(['commentsById', comment.id])
+      }));
+    }
+  },
+  {
+    // deal's hasMany (and hasAndBelongsToMany) relations
+    route: 'dealsById[{keys:ids}].comments.count',
+    get({ ids }) {
+      return Observable.fromPromise(
+        this.Deal.
+          getAll(...ids).
+          // TODO pluck('id').
+          getJoin({
+            comments: {
+              _apply: seq => seq.count(),
+              _array: false
+            }
+          })
+      ).flatMap(deals => Observable.from(deals)).
+      map(deal => ({
+        path: ['dealsById', deal.id, 'comments', 'count'],
+        value: deal.comments
       }));
     }
   }

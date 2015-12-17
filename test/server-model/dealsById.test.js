@@ -120,8 +120,10 @@ describe('dealsById', () => {
       expect(res).to.be.undefined; // eslint-disable-line
     })
   );
-  it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-    comments.edges[1..2]`, () =>
+  it(`dealsById[
+    '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
+    '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
+  ].comments.edges[1..2] both undefined and normal`, () =>
     model.get([
       'dealsById',
       [testDeal1.id, testDeal2.id],
@@ -139,6 +141,22 @@ describe('dealsById', () => {
       expect(edges[2][0]).to.equal('commentsById');
       expect(edges[2][1]).to.equal(comment1.id);
       expect(edges[2].length).to.equal(2);
+    })
+  );
+  it(`dealsById[
+    '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
+    '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
+  ].comments.count`, () =>
+    model.get([
+      'dealsById',
+      [testDeal1.id, testDeal2.id],
+      'comments',
+      'count'
+    ]).
+    then(res => {
+      expect(res.json.dealsById[testDeal2.id].comments.count).to.equal(0); // eslint-disable-line
+      const count = res.json.dealsById[testDeal1.id].comments.count;
+      expect(count).to.equal(3);
     })
   );
 });
