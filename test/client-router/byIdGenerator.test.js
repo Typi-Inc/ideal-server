@@ -5,7 +5,7 @@ import ClientRouter from '../../src/client-router/index';
 
 const $ref = falcor.Model.ref;
 
-describe('dealsById falcor routes', () => {
+describe('byIdGenerator test by dealsById', () => {
   let model;
   before(() => {
     const serverModel = new falcor.Model({
@@ -74,7 +74,7 @@ describe('dealsById falcor routes', () => {
       subscribe(res => {
         expect(
           res.json.dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].title
-        ).to.deep.equal('hello');
+        ).to.equal('hello');
       }, err => done(err), done);
   });
   it(`dealsById[{keys:dealIds}].title`, done => {
@@ -117,8 +117,8 @@ describe('dealsById falcor routes', () => {
         expect(comment.length).to.equal(2);
       }, err => done(err), done);
   });
-  it(`dealsById[{keys:dealIds}].
-    comments.edges['16bca56f-7fb4-469b-8815-1edfd557d244']
+  it(`dealsById['16bca56f-7fb4-469b-8815-1edfd557d244'].
+    comments.edges[0]
     completes with undefined without error`, done => {
     model.
       get([
