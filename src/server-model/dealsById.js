@@ -43,7 +43,7 @@ const dealsById = [
       return Observable.fromPromise(
         this.Deal.
           getAll(...ids).
-          // TODO pluck('id').
+          pluck('id').
           getJoin({
             comments: {
               _apply: seq => seq.
@@ -72,7 +72,7 @@ const dealsById = [
       return Observable.fromPromise(
         this.Deal.
           getAll(...ids).
-          // TODO pluck('id').
+          pluck('id').
           getJoin({
             comments: {
               _apply: seq => seq.count(),
