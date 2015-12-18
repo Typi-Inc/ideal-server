@@ -1,13 +1,18 @@
 import Router from 'falcor-router';
-import dealsById from './dealsById';
+import generator from './byIdRoutesFromModel';
 
 class ServerRouter extends Router.createClass([
-  ...dealsById
+  ...generator.call(this, {
+    name: 'deals',
+    modelName: 'Deal',
+    belongsTo: {
+      business: 'businesses'
+    }
+  })
 ]) {
   constructor(model) {
     super();
     Object.assign(this, model);
-    // this.Deal = model.Deal;
   }
 }
 

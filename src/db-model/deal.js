@@ -16,8 +16,9 @@ const Deal = thinky.createModel('Deal', {
 module.exports = Deal;
 
 const Comment = require('./comment');
+const Business = require('./business');
 // Deal.hasAndBelongsToMany(Tag,'tags','id','id')
-// Deal.belongsTo(Company,'company','idcompany','id')
+Deal.belongsTo(Business, 'business', 'idBusiness', 'id');
 // Deal.hasMany(Like,'likes','id','idDeal')
 Deal.hasMany(Comment, 'comments', 'id', 'idDeal');
 // Deal.hasMany(Certificate,'certificates','id','idDeal')

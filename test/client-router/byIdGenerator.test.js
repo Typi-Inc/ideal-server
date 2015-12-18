@@ -198,7 +198,7 @@ describe('byIdGenerator test by dealsById', () => {
   it(`dealsById[
     '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
     '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
-  ].company.name completes well`, done => {
+  ].company completes well`, done => { // TODO rename to business
     model.
       get([
         'dealsById',
