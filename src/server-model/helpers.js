@@ -5,6 +5,26 @@ export function arrayToFalcorString(arr) {
   return result;
 }
 
+export function getJoinNames(fields) {
+  let joinNames = fields;
+  if (joinNames.constructor !== Array) {
+    joinNames = [joinNames];
+  }
+  return joinNames;
+}
+
+export function getJoinInfo(pathSet, _applyFn, _array) {
+  const joinNames = getJoinNames(pathSet[2]);
+  const joinThinkyObject = {};
+  joinNames.forEach(field => {
+    joinThinkyObject[field] = {
+      _apply: _applyFn,
+      _array: _array ? true : false
+    };
+  });
+  return { joinNames, joinThinkyObject };
+}
+
 export function parseFilterAndSort(str) {
   const result = {
     filter: null,

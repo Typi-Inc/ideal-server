@@ -37,7 +37,7 @@
     "falcor-router": "^0.2.12",
     "lodash": "^3.10.1",
     "morgan": "^1.6.1",
-    "thinky": "^2.2.2",
+    "thinky": "^2.2.3",
     "winston": "^2.1.1"
   }
 }

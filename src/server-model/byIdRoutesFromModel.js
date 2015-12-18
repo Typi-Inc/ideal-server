@@ -2,25 +2,12 @@ import { Observable } from 'rx';
 import falcor from 'falcor';
 import {
   arrayToFalcorString,
-  parseFilterAndSort
+  parseFilterAndSort,
+  getJoinInfo
+  // getJoinNames
 } from './helpers';
 
 const $ref = falcor.Model.ref;
-
-function getJoinInfo(pathSet, _applyFn, _array) {
-  let joinNames = pathSet[2];
-  if (joinNames.constructor !== Array) {
-    joinNames = [joinNames];
-  }
-  const joinThinkyObject = {};
-  joinNames.forEach(field => {
-    joinThinkyObject[field] = {
-      _apply: _applyFn,
-      _array: _array ? true : false
-    };
-  });
-  return { joinNames, joinThinkyObject };
-}
 
 function byIdRoutesFromModel({ name, modelName, belongsTo }) {
   const belongsToJoinFields = Object.keys(belongsTo);
@@ -70,81 +57,92 @@ function byIdRoutesFromModel({ name, modelName, belongsTo }) {
         }));
       }
     },
+    // {
+    //   // deal's hasMany (and hasAndBelongsToMany) relations
+    //   // TODO redirect https://github.com/Netflix/falcor/issues/672
+    //   route: `${name}ById[{keys:ids}][{keys:hasManyFields}].edges[{integers:range}]`,
+    //   get(pathSet) {
+    //     const { ids, range } = pathSet;
+    //     const {
+    //       joinNames,
+    //       joinThinkyObject
+    //     } = getJoinInfo(
+    //       pathSet,
+    //       seq => seq.
+    //         orderBy(this.r.desc('createdAt')). // default sorting by createdAt
+    //         slice(
+    //           Number.parseInt(range[0], 10),
+    //           Number.parseInt(range[range.length - 1], 10) + 1
+    //         ).
+    //         pluck('id'),
+    //       true
+    //     );
+    //     return Observable.fromPromise(
+    //       this[modelName].
+    //         getAll(...ids).
+    //         pluck('id').
+    //         getJoin(joinThinkyObject)
+    //     ).flatMap(docs =>
+    //       Observable.from(docs)
+    //     ).
+    //     flatMap(doc =>
+    //       Observable.from(joinNames).
+    //         map(joinName => ({
+    //           docId: doc.id,
+    //           joinedDocs: doc[joinName],
+    //           joinName
+    //         }))
+    //     ).
+    //     flatMap(({ docId, joinedDocs, joinName }) =>
+    //       Observable.from(joinedDocs).map((joinedDoc, i) => ({ docId, joinedDoc, joinName, index: i }))
+    //     ).map(({ docId, joinedDoc, joinName, index }) => ({
+    //       path: [`${name}ById`, docId, joinName, 'edges', range[index]],
+    //       value: $ref([`${joinName}ById`, joinedDoc.id])
+    //     }));
+    //   }
+    // },
+    // {
+    //   // deal's hasMany (and hasAndBelongsToMany) relations defaults to
+    //   // descending ordering over createdAt field
+    //   route: `${name}ById[{keys:ids}].comments`,
+    //   get(pathSet) {
+    //     const { ids } = pathSet;
+    //     const joinedNames = getJoinNames(pathSet[2]);
+    //     return Observable.from(ids).
+    //       flatMap(id => Observable.from(joinedNames).
+    //         map(joinedName => ({ id, joinedName }))
+    //       ).
+    //       map(({ id, joinedName }) => ({
+    //         path: [`${name}ById`, id, joinedName],
+    //         value: $ref([`${name}ById`, id, joinedName, 'sort:createdAt=desc'])
+    //       }));
+    //     // const {
+    //     //   joinNames,
+    //     //   joinThinkyObject
+    //     // } = getJoinInfo(pathSet, seq => seq.count(), false);
+    //     // const { ids } = pathSet;
+    //     // return Observable.fromPromise(
+    //     //   this[modelName].
+    //     //     getAll(...ids).
+    //     //     pluck('id').
+    //     //     getJoin(joinThinkyObject)
+    //     // ).flatMap(docs => Observable.from(docs)).
+    //     // flatMap(doc =>
+    //     //   Observable.from(joinNames).
+    //     //     map(joinName => ({
+    //     //       docId: doc.id,
+    //     //       count: doc[joinName],
+    //     //       joinName
+    //     //     }))
+    //     // ).
+    //     // map(({ docId, count, joinName }) => ({
+    //     //   path: [`${name}ById`, docId, joinName, 'count'],
+    //     //   value: count
+    //     // }));
+    //   }
+    // },
     {
-      // deal's hasMany (and hasAndBelongsToMany) relations
-      // TODO redirect
-      route: `${name}ById[{keys:ids}][{keys:hasManyFields}].edges[{integers:range}]`,
-      get(pathSet) {
-        const { ids, range } = pathSet;
-        const {
-          joinNames,
-          joinThinkyObject
-        } = getJoinInfo(
-          pathSet,
-          seq => seq.
-            orderBy(this.r.desc('createdAt')). // default sorting by createdAt
-            slice(
-              Number.parseInt(range[0], 10),
-              Number.parseInt(range[range.length - 1], 10) + 1
-            ).
-            pluck('id'),
-          true
-        );
-        return Observable.fromPromise(
-          this[modelName].
-            getAll(...ids).
-            pluck('id').
-            getJoin(joinThinkyObject)
-        ).flatMap(docs =>
-          Observable.from(docs)
-        ).
-        flatMap(doc =>
-          Observable.from(joinNames).
-            map(joinName => ({
-              docId: doc.id,
-              joinedDocs: doc[joinName],
-              joinName
-            }))
-        ).
-        flatMap(({ docId, joinedDocs, joinName }) =>
-          Observable.from(joinedDocs).map((joinedDoc, i) => ({ docId, joinedDoc, joinName, index: i }))
-        ).map(({ docId, joinedDoc, joinName, index }) => ({
-          path: [`${name}ById`, docId, joinName, 'edges', range[index]],
-          value: $ref([`${joinName}ById`, joinedDoc.id])
-        }));
-      }
-    },
-    {
-      // deal's hasMany (and hasAndBelongsToMany) relations
-      route: `${name}ById[{keys:ids}][{keys:hasManyFields}].count`,
-      get(pathSet) {
-        const {
-          joinNames,
-          joinThinkyObject
-        } = getJoinInfo(pathSet, seq => seq.count(), false);
-        const { ids } = pathSet;
-        return Observable.fromPromise(
-          this[modelName].
-            getAll(...ids).
-            pluck('id').
-            getJoin(joinThinkyObject)
-        ).flatMap(docs => Observable.from(docs)).
-        flatMap(doc =>
-          Observable.from(joinNames).
-            map(joinName => ({
-              docId: doc.id,
-              count: doc[joinName],
-              joinName
-            }))
-        ).
-        map(({ docId, count, joinName }) => ({
-          path: [`${name}ById`, docId, joinName, 'count'],
-          value: count
-        }));
-      }
-    },
-    {
-      // deal's hasMany (and hasAndBelongsToMany) relations
+      // deal's hasMany (and hasAndBelongsToMany) relations with sorting and filtering
       route: `${name}ById[{keys:ids}][{keys:hasManyFields}][{keys:filtersAndSorts}].edges[{integers:range}]`,
       get(pathSet) {
         const { ids, range, filtersAndSorts } = pathSet;
@@ -207,7 +205,7 @@ function byIdRoutesFromModel({ name, modelName, belongsTo }) {
       }
     },
     {
-      // deal's hasMany (and hasAndBelongsToMany) relations
+      // deal's hasMany (and hasAndBelongsToMany) relations with sorting and filtering
       route: `${name}ById[{keys:ids}][{keys:hasManyFields}][{keys:filtersAndSorts}].count`,
       get(pathSet) {
         const { ids, filtersAndSorts } = pathSet;
