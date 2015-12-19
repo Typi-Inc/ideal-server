@@ -5,7 +5,7 @@ export function arrayToFalcorString(arr) {
   return result;
 }
 
-export function getJoinNames(fields) {
+function getJoinNames(fields) {
   let joinNames = fields;
   if (joinNames.constructor !== Array) {
     joinNames = [joinNames];

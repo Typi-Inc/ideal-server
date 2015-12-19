@@ -5,7 +5,7 @@ import ClientRouter from '../../src/client-router/index';
 
 const $ref = falcor.Model.ref;
 
-describe('byIdGenerator test by dealsById', () => {
+describe('byIdGenerator test with dealsById', () => {
   let model;
   before(() => {
     const serverModel = new falcor.Model({
@@ -326,7 +326,6 @@ describe('byIdGenerator test by dealsById', () => {
         'business'
       ]).
       then(res => {
-        console.log(res);
         const business = res.json.
           dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].business;
         expect(business.length).to.equal(2);
@@ -336,4 +335,5 @@ describe('byIdGenerator test by dealsById', () => {
           to.be.undefined;
       })
   );
+  // TODO test errors
 });

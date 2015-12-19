@@ -7,4 +7,3 @@ const Comment = thinky.createModel('Comment', {
 });
 
 module.exports = Comment;
-// Comment.belongsTo(User,'author','id','idAuthor')

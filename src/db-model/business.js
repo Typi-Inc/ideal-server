@@ -10,4 +10,3 @@ const Business = thinky.createModel('Business', {
 });
 
 module.exports = Business;
-// Comment.belongsTo(User,'author','id','idAuthor')

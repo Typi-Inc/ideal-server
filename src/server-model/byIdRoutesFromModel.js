@@ -4,7 +4,6 @@ import {
   arrayToFalcorString,
   parseFilterAndSort,
   getJoinInfo
-  // getJoinNames
 } from './helpers';
 
 const $ref = falcor.Model.ref;
@@ -17,6 +16,7 @@ function byIdRoutesFromModel({ name, modelName, belongsTo }) {
       // deal's fields
       route: `${name}ById[{keys:ids}][{keys:fields}]`,
       get({ ids, fields }) {
+        console.log(ids, fields);
         return Observable.fromPromise(
           this[modelName].getAll(...ids).pluck(...fields.concat('id'))
         ).flatMap(docs =>

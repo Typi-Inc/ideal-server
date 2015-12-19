@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import falcor from 'falcor';
 import _ from 'lodash';
 import ServerRouter from '../../src/server-model/server-router';
-import dbModel from '../../src/db-model';
+import db from '../../src/db-model';
 
-describe('dealsById', () => {
+describe('ServerModel test with dealsById', () => {
   let model;
   let testDeal1;
   let testDeal2;
@@ -19,54 +19,54 @@ describe('dealsById', () => {
   let commentFiltersAndSorts4;
   before(() => {
     model = new falcor.Model({
-      source: new ServerRouter(dbModel),
+      source: new ServerRouter(db),
       maxSize: 0
     });
-    testDeal1 = new dbModel.Deal({
+    testDeal1 = new db.Deal({
       title: 'test'
     });
-    testDeal2 = new dbModel.Deal({
+    testDeal2 = new db.Deal({
       title: 'test2'
     });
-    comment1 = new dbModel.Comment({
+    comment1 = new db.Comment({
       text: 'hey',
-      createdAt: dbModel.r.time(
-        2013, dbModel.r.august, 9, 18, 53, 15.012, '-07:00')
+      createdAt: db.r.time(
+        2013, db.r.august, 9, 18, 53, 15.012, '-07:00')
     });
-    comment2 = new dbModel.Comment({
+    comment2 = new db.Comment({
       text: 'ho',
-      createdAt: dbModel.r.time(
-        2014, dbModel.r.august, 9, 18, 53, 15.012, '-07:00'
+      createdAt: db.r.time(
+        2014, db.r.august, 9, 18, 53, 15.012, '-07:00'
       )
     });
-    comment3 = new dbModel.Comment({
+    comment3 = new db.Comment({
       text: 'cho'
     });
-    business1 = new dbModel.Business({
+    business1 = new db.Business({
       name: 'IDeal'
     });
-    testDealFiltersAndSorts = new dbModel.Deal({
+    testDealFiltersAndSorts = new db.Deal({
       title: 'test3'
     });
-    commentFiltersAndSorts1 = new dbModel.Comment({
+    commentFiltersAndSorts1 = new db.Comment({
       text: 'yo',
       idAuthor: '1',
-      createdAt: dbModel.r.time(
-        2014, dbModel.r.august, 9, 18, 53, 15.012, '-07:00'
+      createdAt: db.r.time(
+        2014, db.r.august, 9, 18, 53, 15.012, '-07:00'
       )
     });
-    commentFiltersAndSorts2 = new dbModel.Comment({
+    commentFiltersAndSorts2 = new db.Comment({
       text: 'yo',
       idAuthor: '1',
-      createdAt: dbModel.r.time(
-        2013, dbModel.r.august, 9, 18, 53, 15.012, '-07:00'
+      createdAt: db.r.time(
+        2013, db.r.august, 9, 18, 53, 15.012, '-07:00'
       )
     });
-    commentFiltersAndSorts3 = new dbModel.Comment({
+    commentFiltersAndSorts3 = new db.Comment({
       text: 'yo',
       idAuthor: '2'
     });
-    commentFiltersAndSorts4 = new dbModel.Comment({
+    commentFiltersAndSorts4 = new db.Comment({
       text: 'cho'
     });
     testDeal1.comments = [comment1, comment2, comment3];
@@ -470,4 +470,5 @@ describe('dealsById', () => {
       expect(count1).to.equal(2);
     })
   );
+  // TODO test errors
 });
