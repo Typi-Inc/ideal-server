@@ -13,16 +13,14 @@ const Deal = thinky.createModel('Deal', {
   idBusiness: type.string()
 });
 
-module.exports = Deal;
+Deal.plural = 'deals';
 
-const Comment = require('./comment');
-const Business = require('./business');
-const Tag = require('./tag');
-const Like = require('./like');
-const Certificate = require('./certificate');
+Deal.ready().then(() => {
+  Deal.belongsTo(thinky.models.Business, 'business', 'idBusiness', 'id');
+  Deal.hasMany(thinky.models.Certificate, 'certificates', 'id', 'idDeal');
+  Deal.hasMany(thinky.models.Comment, 'comments', 'id', 'idDeal');
+  Deal.hasMany(thinky.models.Like, 'likes', 'id', 'idDeal');
+  Deal.hasAndBelongsToMany(thinky.models.Tag, 'tags', 'id', 'id');
+});
 
-Deal.hasAndBelongsToMany(Tag, 'tags', 'id', 'id');
-Deal.belongsTo(Business, 'business', 'idBusiness', 'id');
-Deal.hasMany(Like, 'likes', 'id', 'idDeal');
-Deal.hasMany(Comment, 'comments', 'id', 'idDeal');
-Deal.hasMany(Certificate, 'certificates', 'id', 'idDeal');
+export default Deal;

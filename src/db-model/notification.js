@@ -8,4 +8,6 @@ const Notification = thinky.createModel('Notification', {
   idSender: type.string()
 });
 
-module.exports = Notification;
+Notification.plural = 'notifications';
+
+export default Notification;

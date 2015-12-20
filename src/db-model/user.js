@@ -7,17 +7,16 @@ const User = thinky.createModel('User', {
   city: type.string()
 });
 
-module.exports = User;
+User.plural = 'users';
 
-const Business = require('./business');
-const Certificate = require('./certificate');
-const Deal = require('./deal');
-const Notification = require('./notification');
+User.ready().then(() => {
+  User.hasMany(thinky.models.Business, 'businesses', 'id', 'idAdmin');
+  User.hasAndBelongsToMany(thinky.models.Certificate, 'boughtCertificates', 'id', 'id');
+  User.hasAndBelongsToMany(thinky.models.Deal, 'likedDeals', 'id', 'id');
+  User.hasAndBelongsToMany(thinky.models.Deal, 'referredDeals', 'id', 'id');
+  User.hasAndBelongsToMany(thinky.models.Deal, 'soldDeals', 'id', 'id');
+  User.hasMany(thinky.models.Notification, 'receivedNotifications', 'id', 'idReceiver');
+  User.hasMany(thinky.models.Notification, 'sentNotifications', 'id', 'idSender');
+});
 
-User.hasAndBelongsToMany(Deal, 'likedDeals', 'id', 'id');
-User.hasAndBelongsToMany(Deal, 'referredDeals', 'id', 'id');
-User.hasAndBelongsToMany(Deal, 'soldDeals', 'id', 'id');
-User.hasAndBelongsToMany(Certificate, 'boughtCertificates', 'id', 'id');
-User.hasMany(Business, 'businesses', 'id', 'idAdmin');
-User.hasMany(Notification, 'receivedNotifications', 'id', 'idReceiver');
-User.hasMany(Notification, 'sentNotifications', 'id', 'idSender');
+export default User;

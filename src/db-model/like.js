@@ -5,4 +5,6 @@ const Like = thinky.createModel('Like', {
   idUser: type.string()
 });
 
-module.exports = Like;
+Like.plural = 'likes';
+
+export default Like;

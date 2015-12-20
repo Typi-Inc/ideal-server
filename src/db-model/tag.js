@@ -4,4 +4,6 @@ const Tag = thinky.createModel('Tag', {
   text: type.string()
 });
 
-module.exports = Tag;
+Tag.plural = 'tags';
+
+export default Tag;

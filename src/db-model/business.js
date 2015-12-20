@@ -9,4 +9,6 @@ const Business = thinky.createModel('Business', {
   idAdmin: type.string()
 });
 
-module.exports = Business;
+Business.plural = 'businesses';
+
+export default Business;

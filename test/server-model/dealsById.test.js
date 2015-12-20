@@ -4,7 +4,7 @@ import _ from 'lodash';
 import ServerRouter from '../../src/server-model/server-router';
 import db from '../../src/db-model';
 
-describe('ServerModel test with dealsById', () => {
+describe('dealsById', () => {
   let model;
   let testDeal1;
   let testDeal2;
@@ -19,54 +19,54 @@ describe('ServerModel test with dealsById', () => {
   let commentFiltersAndSorts4;
   before(() => {
     model = new falcor.Model({
-      source: new ServerRouter(db),
+      source: new ServerRouter(),
       maxSize: 0
     });
-    testDeal1 = new db.Deal({
+    testDeal1 = new db.models.Deal({
       title: 'test'
     });
-    testDeal2 = new db.Deal({
+    testDeal2 = new db.models.Deal({
       title: 'test2'
     });
-    comment1 = new db.Comment({
+    comment1 = new db.models.Comment({
       text: 'hey',
       createdAt: db.r.time(
         2013, db.r.august, 9, 18, 53, 15.012, '-07:00')
     });
-    comment2 = new db.Comment({
+    comment2 = new db.models.Comment({
       text: 'ho',
       createdAt: db.r.time(
         2014, db.r.august, 9, 18, 53, 15.012, '-07:00'
       )
     });
-    comment3 = new db.Comment({
+    comment3 = new db.models.Comment({
       text: 'cho'
     });
-    business1 = new db.Business({
+    business1 = new db.models.Business({
       name: 'IDeal'
     });
-    testDealFiltersAndSorts = new db.Deal({
+    testDealFiltersAndSorts = new db.models.Deal({
       title: 'test3'
     });
-    commentFiltersAndSorts1 = new db.Comment({
+    commentFiltersAndSorts1 = new db.models.Comment({
       text: 'yo',
       idAuthor: '1',
       createdAt: db.r.time(
         2014, db.r.august, 9, 18, 53, 15.012, '-07:00'
       )
     });
-    commentFiltersAndSorts2 = new db.Comment({
+    commentFiltersAndSorts2 = new db.models.Comment({
       text: 'yo',
       idAuthor: '1',
       createdAt: db.r.time(
         2013, db.r.august, 9, 18, 53, 15.012, '-07:00'
       )
     });
-    commentFiltersAndSorts3 = new db.Comment({
+    commentFiltersAndSorts3 = new db.models.Comment({
       text: 'yo',
       idAuthor: '2'
     });
-    commentFiltersAndSorts4 = new db.Comment({
+    commentFiltersAndSorts4 = new db.models.Comment({
       text: 'cho'
     });
     testDeal1.comments = [comment1, comment2, comment3];
@@ -403,6 +403,7 @@ describe('ServerModel test with dealsById', () => {
       'dealsById',
       testDealFiltersAndSorts.id,
       'comments',
+      'where:text=yo,idAuthor=5&sort:createdAt=desc',
       'edges',
       { from: 0, to: 5 }
     ]).

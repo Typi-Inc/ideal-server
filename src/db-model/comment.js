@@ -6,4 +6,6 @@ const Comment = thinky.createModel('Comment', {
   idAuthor: type.string()
 });
 
-module.exports = Comment;
+Comment.plural = 'comments';
+
+export default Comment;

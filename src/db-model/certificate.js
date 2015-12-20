@@ -9,4 +9,6 @@ const Certificate = thinky.createModel('Certificate', {
   idDeal: type.string()
 });
 
-module.exports = Certificate;
+Certificate.plural = 'certificates';
+
+export default Certificate;
