@@ -1,8 +1,9 @@
 import Router from 'falcor-router';
-import generator from './byIdGenerator';
+import { clientRoutesFromModels } from './generator';
+import thinky from '../db-model';
 
 class ClientRouter extends Router.createClass([
-  ...generator('deals')
+  ...clientRoutesFromModels(thinky)
 ]) {
   constructor(serverModel) {
     super();

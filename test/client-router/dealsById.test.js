@@ -5,7 +5,7 @@ import ClientRouter from '../../src/client-router/index';
 
 const $ref = falcor.Model.ref;
 
-describe('byIdGenerator test with dealsById', () => {
+describe('dealsById clientRouter', () => {
   let model;
   before(() => {
     const serverModel = new falcor.Model({

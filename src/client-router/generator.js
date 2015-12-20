@@ -1,6 +1,7 @@
 import forward from './forwardToServerModel';
 
-function byIdGenerator(name) {
+export function byIdRoutes(model) {
+  const name = model.plural;
   return [
     {
       route: `${name}ById[{keys:ids}][{keys:fields}]`,
@@ -36,4 +37,15 @@ function byIdGenerator(name) {
   ];
 }
 
-export default byIdGenerator;
+export function clientRoutesFromModels(thinky) {
+  const result = [];
+  const models = thinky.models;
+  for (const modelName in models) {
+    // eliminate join tables
+    if (!modelName.includes('_')) {
+      const model = models[modelName];
+      result.push(...byIdRoutes(model));
+    }
+  }
+  return result;
+}
