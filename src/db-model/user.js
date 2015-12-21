@@ -1,6 +1,7 @@
 import thinky, { type } from './thinky';
 
 const User = thinky.createModel('User', {
+  name: type.string(),
   image: type.string(),
   email: type.string(),
   balance: type.number(),
@@ -17,6 +18,7 @@ User.ready().then(() => {
   User.hasAndBelongsToMany(thinky.models.Deal, 'soldDeals', 'id', 'id');
   User.hasMany(thinky.models.Notification, 'receivedNotifications', 'id', 'idReceiver');
   User.hasMany(thinky.models.Notification, 'sentNotifications', 'id', 'idSender');
+  User.hasAndBelongsToMany(thinky.models.Tag, 'watchedTags', 'id', 'id');
 });
 
 export default User;

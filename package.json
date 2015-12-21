@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node src/index",
     "test": "npm run lint && npm run mocha",
+    "gen": "babel-node ./test/generate-data",
+    "del": "babel-node ./test/delete-data",
     "lint": "eslint .",
     "mocha": "mocha --full-trace --compilers js:babel-register --recursive"
   },
@@ -26,6 +28,7 @@
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^2.1.1",
     "eslint-plugin-react": "^3.11.3",
+    "faker": "^3.0.1",
     "falcor-http-datasource": "^0.1.2",
     "mocha": "^2.3.4"
   },

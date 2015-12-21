@@ -2,9 +2,10 @@ import thinky, { type } from './thinky';
 
 const Deal = thinky.createModel('Deal', {
   title: type.string(),
-  images: type.array(), // urls
-  description: type.string(),
+  image: type.string(), // urls
+  conditions: type.string(),
   highlights: type.string(),
+  city:type.string(),
   endDate: type.date(),
   watchCount: type.number().default(0),
   payout: type.number(),

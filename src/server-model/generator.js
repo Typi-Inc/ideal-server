@@ -109,7 +109,7 @@ function modelHasManyAndHasAndBelongsToManyJoinsToRoutes(model, r) {
             ).
             map(docs => ({ docs, joinNames, filterAndSortString }))
           ).
-          flatMap(({ docs, joinNames, filterAndSortString }) =>
+          flatMap(({ docs, joinNames, filterAndSortString }) => 
             Observable.from(docs).map(doc => ({ doc, joinNames, filterAndSortString }))
           ).
           flatMap(({ doc, joinNames, filterAndSortString }) =>
@@ -128,7 +128,7 @@ function modelHasManyAndHasAndBelongsToManyJoinsToRoutes(model, r) {
           ).
           map(({ docId, joinedDoc, joinName, index, filterAndSortString }) => ({
             path: [`${name}ById`, docId, joinName, filterAndSortString, 'edges', range[index]],
-            value: $ref([`${joinName}ById`, joinedDoc.id])
+            value: $ref([`${joinedDoc.constructor.plural}ById`, joinedDoc.id])
           }));
       }
     },
