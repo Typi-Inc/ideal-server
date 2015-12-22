@@ -109,7 +109,7 @@ function modelHasManyAndHasAndBelongsToManyJoinsToRoutes(model, r) {
             ).
             map(docs => ({ docs, joinNames, filterAndSortString }))
           ).
-          flatMap(({ docs, joinNames, filterAndSortString }) => 
+          flatMap(({ docs, joinNames, filterAndSortString }) =>
             Observable.from(docs).map(doc => ({ doc, joinNames, filterAndSortString }))
           ).
           flatMap(({ doc, joinNames, filterAndSortString }) =>

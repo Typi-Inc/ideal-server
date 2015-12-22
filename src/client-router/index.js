@@ -1,14 +1,36 @@
 import Router from 'falcor-router';
 import { clientRoutesFromModels } from './generator';
+import falcor from 'falcor';
 import thinky from '../db-model';
 
+const $ref = falcor.Model.ref;
+const $error = falcor.Model.error;
+
 class ClientRouter extends Router.createClass([
-  ...clientRoutesFromModels(thinky)
+  ...clientRoutesFromModels(thinky),
+  // TODO do i need to invalidate this path?
+  {
+    route: 'user',
+    get() {
+      if (this.user) {
+        return {
+          path: ['user'],
+          value: $ref(['usersById', this.user.id])
+        };
+      }
+      return {
+        path: ['user'],
+        // TODO treatErrorsasValues? https://github.com/Netflix/falcor/issues/633
+        // value: $error({ unathorized: true })
+        value: $error('user is not logged in')
+      };
+    }
+  }
 ]) {
-  constructor(serverModel) {
+  constructor(serverModel, user) {
     super();
     this.serverModel = serverModel;
-    // TODO this.userId = userId;
+    this.user = user;
   }
 }
 

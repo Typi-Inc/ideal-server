@@ -4,10 +4,10 @@
   "description": "IDeal server",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index",
+    "start": "JWT_SECRET=JAWhZdFEquxP6tQb4dtpTU0TZ36JQbowBKOUBzkUsCaWO0F3ML2ktweRcGc2fmlH node src/index",
     "test": "npm run lint && npm run mocha",
-    "gen": "babel-node ./test/generate-data",
-    "del": "babel-node ./test/delete-data",
+    "gen": "babel-node ./tools/generate-data",
+    "del": "babel-node ./tools/delete-data",
     "lint": "eslint .",
     "mocha": "mocha --full-trace --compilers js:babel-register --recursive"
   },
@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "express": "^4.13.3",
+    "express-jwt": "^3.3.0",
     "falcor": "^0.1.15",
     "falcor-express": "^0.1.2",
     "falcor-router": "^0.2.12",

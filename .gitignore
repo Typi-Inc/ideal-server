@@ -40,6 +40,10 @@ rethinkdb_data/
 build
 dist
 
+# build files
+public/index.html
+public/bundle.js
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

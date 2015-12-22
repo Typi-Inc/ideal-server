@@ -5,7 +5,7 @@ const Deal = thinky.createModel('Deal', {
   image: type.string(), // urls
   conditions: type.string(),
   highlights: type.string(),
-  city:type.string(),
+  city: type.string(),
   endDate: type.date(),
   watchCount: type.number().default(0),
   payout: type.number(),

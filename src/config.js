@@ -5,3 +5,4 @@ export const THINKY = {
   port: process.env.THINKY_PORT || 28015,
   db: process.env.THINKY_DB || 'test'
 };
+export const JWT_SECRET = process.env.JWT_SECRET || 'test';

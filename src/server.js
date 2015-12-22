@@ -1,9 +1,11 @@
+import path from 'path';
 import express from 'express';
 import morgan from 'morgan';
 import routes from './express-routes';
 import log from './logger';
 import { PORT, NODE_ENV } from './config';
 
+const publicPath = path.resolve(__dirname, '..', 'public');
 const app = express();
 
 // configure logging
@@ -18,6 +20,7 @@ if (NODE_ENV === 'development') {
   }));
 }
 
+app.use(express.static(publicPath));
 app.use(routes);
 
 // error handler

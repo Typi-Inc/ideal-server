@@ -1,7 +1,7 @@
 import thinky, { type } from './thinky';
 
 const Tag = thinky.createModel('Tag', {
-  text: type.string(),
+  text: type.string()
 });
 
 Tag.plural = 'tags';
