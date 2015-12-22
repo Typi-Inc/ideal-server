@@ -8,6 +8,7 @@
     "test": "npm run lint && npm run mocha",
     "gen": "babel-node ./tools/generate-data",
     "del": "babel-node ./tools/delete-data",
+    "besmart": "babel-node ./tools/featuredDeals.test",
     "lint": "eslint .",
     "mocha": "mocha --full-trace --compilers js:babel-register --recursive"
   },

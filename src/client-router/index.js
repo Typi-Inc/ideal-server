@@ -1,6 +1,7 @@
 import Router from 'falcor-router';
 import { clientRoutesFromModels } from './generator';
 import falcor from 'falcor';
+import forward from './forwardToServerModel';
 import thinky from '../db-model';
 
 const $ref = falcor.Model.ref;
@@ -25,6 +26,12 @@ class ClientRouter extends Router.createClass([
         value: $error('user is not logged in')
       };
     }
+  },
+  {
+  	route:'featuredDeals[{integers:range}]',
+  	get(pathSet) {
+  		return forward.call(this,pathSet)
+  	}
   }
 ]) {
   constructor(serverModel, user) {

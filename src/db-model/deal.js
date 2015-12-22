@@ -19,6 +19,7 @@ Deal.plural = 'deals';
 Deal.ready().then(() => {
   Deal.belongsTo(thinky.models.Business, 'business', 'idBusiness', 'id');
   Deal.hasMany(thinky.models.Certificate, 'certificates', 'id', 'idDeal');
+  Deal.hasMany(thinky.models.Referral, 'referrals', 'id', 'idDeal');
   Deal.hasMany(thinky.models.Comment, 'comments', 'id', 'idDeal');
   Deal.hasMany(thinky.models.Like, 'likes', 'id', 'idDeal');
   Deal.hasAndBelongsToMany(thinky.models.Tag, 'tags', 'id', 'id');

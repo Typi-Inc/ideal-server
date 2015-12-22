@@ -15,7 +15,7 @@ const authenticate = jwt({
 
 router.all(
   '/model.json',
-  authenticate,
+  // authenticate,
   falcorExpress.dataSourceRoute(req => new ClientRouter(serverModel, req.user))
 );
 
