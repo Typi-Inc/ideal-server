@@ -51,6 +51,13 @@ function getRandomLengthArray(maxLength, startFrom = 0) {
   return result;
 }
 
+function getRandomDiscount() {
+  return Math.round(Math.random() * 10) * 10;
+}
+function getRandomPayout() {
+  return Math.round(Math.random() * 2) * 10;
+}
+
 const tagsToSave = [
   'Маникюр',
   'Диагностика',
@@ -104,8 +111,8 @@ flatMap(({ user, tags }) => {
     conditions: faker.lorem.paragraphs(),
     highlights: faker.lorem.paragraph(),
     endDate: faker.date.future(),
-    payout: Math.round(Math.random() * 20, 0),
-    discount: Math.round(Math.random() * 100, 0)
+    payout: getRandomPayout(),
+    discount: getRandomDiscount()
   });
   const business1 = new thinky.models.Business({
     name: faker.company.companyName(),
@@ -129,8 +136,8 @@ flatMap(({ user, tags }) => {
     conditions: faker.lorem.paragraphs(),
     highlights: faker.lorem.paragraph(),
     endDate: faker.date.future(),
-    payout: Math.round(Math.random() * 20, 0),
-    discount: Math.round(Math.random() * 100, 0)
+    payout: getRandomPayout(),
+    discount: getRandomDiscount()
   });
   const business2 = new thinky.models.Business({
     name: faker.company.companyName(),
@@ -154,8 +161,8 @@ flatMap(({ user, tags }) => {
     conditions: faker.lorem.paragraphs(),
     highlights: faker.lorem.paragraph(),
     endDate: faker.date.future(),
-    payout: Math.round(Math.random() * 20, 0),
-    discount: Math.round(Math.random() * 100, 0)
+    payout: getRandomPayout(),
+    discount: getRandomDiscount()
   });
   const business3 = new thinky.models.Business({
     name: faker.company.companyName(),
@@ -179,8 +186,8 @@ flatMap(({ user, tags }) => {
     conditions: faker.lorem.paragraphs(),
     highlights: faker.lorem.paragraph(),
     endDate: faker.date.future(),
-    payout: Math.round(Math.random() * 20, 0),
-    discount: Math.round(Math.random() * 100, 0)
+    payout: getRandomPayout(),
+    discount: getRandomDiscount()
   });
   const business4 = new thinky.models.Business({
     name: faker.company.companyName(),
