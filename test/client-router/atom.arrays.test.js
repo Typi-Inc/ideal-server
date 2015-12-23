@@ -42,7 +42,6 @@ describe('atoms test client router', () => {
       ['phones', 'schedule']
     ]).
     then(res => {
-      console.log(res.json.businessesById['99bca56f-7fb4-469b-8815-1edfd557d244']);
       const expectedPhones = [
         '885-223-1683 x742',
         '776-985-2102 x483',
