@@ -42,8 +42,8 @@ function getRandomPic() {
   return images[Math.floor(Math.random() * images.length)];
 }
 
-function getRandomLengthArray() {
-  const length = Math.floor(Math.random() * 100);
+function getRandomLengthArray(maxLength, startFrom = 0) {
+  const length = Math.floor(Math.random() * maxLength + startFrom);
   const result = [];
   for (let i = 0; i < length; i++) {
     result.push(i);
@@ -51,58 +51,52 @@ function getRandomLengthArray() {
   return result;
 }
 
+const tagsToSave = [
+  'Маникюр',
+  'Диагностика',
+  'Стрижка',
+  'Красота',
+  'Здоровье',
+  'Медцентр',
+  'Обследование',
+  'Йога',
+  'Тренировки',
+  'Спорт',
+  'Машина',
+  'Замена масла',
+  'Toyota'
+];
 
-const userWatchedTag1 = new thinky.models.Tag({
-  text: faker.hacker.noun()
-});
-const userWatchedTag2 = new thinky.models.Tag({
-  text: faker.hacker.noun()
-});
-const userWatchedTag3 = new thinky.models.Tag({
-  text: faker.hacker.noun()
-});
-const userWatchedTag4 = new thinky.models.Tag({
-  text: faker.hacker.noun()
-});
-const userWatchedTag5 = new thinky.models.Tag({
-  text: faker.hacker.noun()
-});
-const userWatchedTag6 = new thinky.models.Tag({
-  text: faker.hacker.noun()
-});
-
-Observable.fromPromise(userWatchedTag1.save()).
-flatMap(() => userWatchedTag2.save()).
-flatMap(() => userWatchedTag3.save()).
-flatMap(() => userWatchedTag4.save()).
-flatMap(() => userWatchedTag5.save()).
-flatMap(() => userWatchedTag6.save()).
-flatMap(() => Observable.from([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])).
-flatMap(() => Observable.fromPromise(
-	thinky.models.Like.save(
-		getRandomLengthArray().map(() => new thinky.models.Like({}))
+Observable.fromPromise(
+	thinky.models.Tag.save(
+    tagsToSave.map(text => new thinky.models.Tag({
+      text
+    }))
 	)
-)).
-flatMap(likes => {
-  const user = new thinky.models.User({
+).
+flatMap(tags =>
+	Observable.from([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]).map(() => tags)
+).
+flatMap(tags =>
+	Observable.fromPromise(
+		thinky.models.Like.save(
+			getRandomLengthArray(100).map(() => new thinky.models.Like({}))
+		)
+	).map(likes => ({ likes, tags }))
+).
+flatMap(({ likes, tags }) => {
+  const userToSave = new thinky.models.User({
     name: faker.name.findName(),
     image: faker.image.avatar(),
     email: faker.internet.email(),
     balance: 0,
     city: 'Almaty'
   });
-  user.watchedTags = [
-    userWatchedTag1,
-    userWatchedTag2,
-    userWatchedTag3,
-    userWatchedTag4,
-    userWatchedTag5,
-    userWatchedTag6
-  ];
-  user.likes = likes;
-  return Observable.fromPromise(user.saveAll());
+  // userToSave.watchedTags = tags;
+  userToSave.likes = likes;
+  return Observable.fromPromise(userToSave.saveAll()).map(user => ({ user, tags }));
 }).
-flatMap(user => {
+flatMap(({ user, tags }) => {
   const deal1 = new thinky.models.Deal({
     title: faker.company.catchPhrase(),
     image: getRandomPic(),
@@ -120,12 +114,14 @@ flatMap(user => {
     image: getRandomPic()
   });
   deal1.business = business1;
-  deal1.likes = user.likes.splice(0, Math.floor(user.likes.length / 4));
-  deal1.tags = [
-    userWatchedTag1,
-    userWatchedTag2,
-    userWatchedTag3
-  ];
+  deal1.likes = user.likes.slice(
+		0,
+		Math.floor(user.likes.length / 4)
+	);
+  deal1.tags = tags.slice(
+		0,
+		Math.floor(tags.length / 4)
+	);
   const deal2 = new thinky.models.Deal({
     title: faker.company.catchPhrase(),
     image: getRandomPic(),
@@ -143,15 +139,14 @@ flatMap(user => {
     image: getRandomPic()
   });
   deal2.business = business2;
-  deal2.likes = user.likes.splice(
-		Math.floor(user.likes.length / 4) + 1,
+  deal2.likes = user.likes.slice(
+		Math.floor(user.likes.length / 4),
 		Math.floor(2 * user.likes.length / 4)
 	);
-  deal2.tags = [
-    userWatchedTag2,
-    userWatchedTag3,
-    userWatchedTag4
-  ];
+  deal2.tags = tags.slice(
+		Math.floor(tags.length / 4),
+		Math.floor(2 * tags.length / 4)
+	);
   const deal3 = new thinky.models.Deal({
     title: faker.company.catchPhrase(),
     image: getRandomPic(),
@@ -169,15 +164,14 @@ flatMap(user => {
     image: getRandomPic()
   });
   deal3.business = business3;
-  deal3.likes = user.likes.splice(
-		Math.floor(2 * user.likes.length / 4) + 1,
+  deal3.likes = user.likes.slice(
+		Math.floor(2 * user.likes.length / 4),
 		Math.floor(3 * user.likes.length / 4)
 	);
-  deal3.tags = [
-    userWatchedTag3,
-    userWatchedTag4,
-    userWatchedTag5
-  ];
+  deal3.tags = tags.slice(
+		Math.floor(2 * tags.length / 4),
+		Math.floor(3 * tags.length / 4)
+	);
   const deal4 = new thinky.models.Deal({
     title: faker.company.catchPhrase(),
     image: getRandomPic(),
@@ -195,19 +189,52 @@ flatMap(user => {
     image: getRandomPic()
   });
   deal4.business = business4;
-  deal4.likes = user.likes.splice(
-		Math.floor(3 * user.likes.length / 4) + 1,
+  deal4.likes = user.likes.slice(
+		Math.floor(3 * user.likes.length / 4),
 		user.likes.length
 	);
-  deal4.tags = [
-    userWatchedTag4,
-    userWatchedTag1,
-    userWatchedTag6
-  ];
-  return Promise.all([
+  deal4.tags = tags.slice(
+		Math.floor(3 * tags.length / 4),
+		tags.length
+	);
+  return Observable.fromPromise(Promise.all([
     deal1.saveAll(),
     deal2.saveAll(),
     deal3.saveAll(),
     deal4.saveAll()
-  ]);
-}).subscribe(console.log);
+  ])).map(deals => ({ deals, user }));
+}).
+flatMap(({ deals, user }) =>
+	Observable.from(deals).map(deal => ({ deal, user }))
+).
+flatMap(({ deal, user }) =>
+  Observable.fromPromise(
+		thinky.models.Comment.save(
+      getRandomLengthArray(30).map(() => new thinky.models.Comment({
+        text: faker.lorem.sentence(),
+        idAuthor: user.id
+      }))
+		)
+  ).
+  flatMap(comments => {
+    deal.comments = comments;
+    return Observable.fromPromise(deal.saveAll());
+  })
+	.map(dealWithComment => ({ dealWithComment, user }))
+).
+flatMap(({ dealWithComment }) =>
+	Observable.fromPromise(
+		thinky.models.Certificate.save(
+      getRandomLengthArray(30).map(() => new thinky.models.Certificate({
+        title: faker.hacker.noun(),
+        totalCount: Math.round(Math.random() * 100, 0),
+        oldPrice: Math.round(Math.random() * 10000 + 500, 0),
+        newPrice: Math.round(Math.random() * 5000 + 500, 0)
+      }))
+		)
+  ).
+  flatMap(certificates => {
+    dealWithComment.certificates = certificates;
+    return Observable.fromPromise(dealWithComment.saveAll());
+  })
+).subscribe(console.log);

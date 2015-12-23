@@ -2,7 +2,6 @@ import thinky, { type } from './thinky';
 
 const Certificate = thinky.createModel('Certificate', {
   title: type.string(),
-  boughtCount: type.number().default(0),
   totalCount: type.number(),
   oldPrice: type.number(),
   newPrice: type.number(),
@@ -10,5 +9,9 @@ const Certificate = thinky.createModel('Certificate', {
 });
 
 Certificate.plural = 'certificates';
+
+Certificate.ready().then(() => {
+  Certificate.hasAndBelongsToMany(thinky.models.User, 'buyers', 'id', 'id');
+});
 
 export default Certificate;
