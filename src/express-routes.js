@@ -7,7 +7,7 @@ import { JWT_SECRET } from './config';
 
 const router = Router(); // eslint-disable-line
 
-const authenticate = jwt({
+const authenticate = jwt({ // eslint-disable-line
   secret: new Buffer(JWT_SECRET, 'base64'),
   // TODO move audience to config
   audience: 'QcskF7WET5whF3Cs8UvcwIHqlZ8FeqKu'

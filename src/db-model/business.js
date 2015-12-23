@@ -5,6 +5,7 @@ const Business = thinky.createModel('Business', {
   city: type.string(),
   street: type.string(),
   phones: type.array(),
+  schedule: type.array(),
   image: type.string(),
   idAdmin: type.string()
 });

@@ -7,6 +7,7 @@ import {
 } from './helpers';
 
 const $ref = falcor.Model.ref;
+const $atom = falcor.Model.atom;
 
 function modelFieldsToRoute(model) {
   const name = model.plural;
@@ -22,10 +23,20 @@ function modelFieldsToRoute(model) {
         Observable.from(docs)
       ).
       map(doc =>
-        pathSet[2].map(field => ({
-          path: [`${name}ById`, doc.id, field],
-          value: doc[field]
-        }))
+        pathSet[2].map(field => {
+          const value = doc[field];
+          console.log(value);
+          if (value.constructor === Array) {
+            return {
+              path: [`${name}ById`, doc.id, field],
+              value: $atom(doc[field])
+            };
+          }
+          return {
+            path: [`${name}ById`, doc.id, field],
+            value: doc[field]
+          };
+        })
       );
     }
   };

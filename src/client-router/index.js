@@ -28,10 +28,10 @@ class ClientRouter extends Router.createClass([
     }
   },
   {
-  	route:'featuredDeals[{integers:range}]',
-  	get(pathSet) {
-  		return forward.call(this,pathSet)
-  	}
+    route: 'featuredDeals[{integers:range}]',
+    get(pathSet) {
+      return forward.call(this, pathSet);
+    }
   }
 ]) {
   constructor(serverModel, user) {

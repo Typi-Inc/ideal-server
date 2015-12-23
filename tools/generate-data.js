@@ -58,6 +58,18 @@ function getRandomPayout() {
   return Math.round(Math.random() * 2) * 10;
 }
 
+function getRandomNumbersArray() {
+  return getRandomLengthArray(3, 2).map(() => faker.phone.phoneNumber());
+}
+
+function getWeeklySchedule() {
+  return [
+    'Пн-Пт 8:00-19:00',
+    'Сб 10:00-16:00',
+    'Вс Выходной'
+  ];
+}
+
 const tagsToSave = [
   'Маникюр',
   'Диагностика',
@@ -118,6 +130,8 @@ flatMap(({ user, tags }) => {
     name: faker.company.companyName(),
     city: 'Almaty',
     street: faker.address.streetAddress(),
+    phones: getRandomNumbersArray(),
+    schedule: getWeeklySchedule(),
     image: getRandomPic()
   });
   deal1.business = business1;
@@ -143,6 +157,8 @@ flatMap(({ user, tags }) => {
     name: faker.company.companyName(),
     city: 'Almaty',
     street: faker.address.streetAddress(),
+    phones: getRandomNumbersArray(),
+    schedule: getWeeklySchedule(),
     image: getRandomPic()
   });
   deal2.business = business2;
@@ -168,6 +184,8 @@ flatMap(({ user, tags }) => {
     name: faker.company.companyName(),
     city: 'Almaty',
     street: faker.address.streetAddress(),
+    phones: getRandomNumbersArray(),
+    schedule: getWeeklySchedule(),
     image: getRandomPic()
   });
   deal3.business = business3;
@@ -193,6 +211,8 @@ flatMap(({ user, tags }) => {
     name: faker.company.companyName(),
     city: 'Almaty',
     street: faker.address.streetAddress(),
+    phones: getRandomNumbersArray(),
+    schedule: getWeeklySchedule(),
     image: getRandomPic()
   });
   deal4.business = business4;
