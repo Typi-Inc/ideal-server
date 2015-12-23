@@ -1,5 +1,9 @@
 import thinky from '../src/db-model';
+import { Observable } from 'rx';
 
-thinky.models.User.then(users => users.forEach(user => user.delete().then(console.log)));
-thinky.models.Deal.then(deals => deals.forEach(deal => deal.delete().then(console.log)));
-thinky.models.Tag.then(tags => tags.forEach(tag => tag.delete().then(console.log)));
+Observable.from(Object.keys(thinky.models)).
+	map(key => thinky.models[key]).
+	flatMap(Model => Observable.fromPromise(Model)).
+	flatMap(docs => Observable.from(docs)).
+	flatMap(doc => Observable.fromPromise(doc.delete())).
+	subscribe(console.log);

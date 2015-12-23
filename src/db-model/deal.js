@@ -10,7 +10,6 @@ const Deal = thinky.createModel('Deal', {
   watchCount: type.number().default(0),
   payout: type.number(),
   discount: type.number(),
-  idLike: type.number(),
   idBusiness: type.string()
 });
 
