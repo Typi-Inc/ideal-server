@@ -3,7 +3,7 @@ import falcor from 'falcor';
 import ServerRouter from '../../src/server-model/server-router';
 import db from '../../src/db-model';
 
-describe('atoms test', () => {
+describe('atoms test serverModel', () => {
   let model;
   let business;
   before(() => {
@@ -32,7 +32,7 @@ describe('atoms test', () => {
   after(() => {
     return business.delete();
   });
-  it(`businessessById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].phones`, () =>
+  it(`businessessById['1f6527f3-c99d-4ff0-b31f-09cb793b966f']['phones', 'schedule']`, () =>
     model.get(['businessesById', business.id, ['phones', 'schedule']]).
     then(res => {
       const { phones, schedule } = res.json.businessesById[business.id];

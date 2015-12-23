@@ -1,5 +1,6 @@
 import falcor from 'falcor';
 const $ref = falcor.Model.ref;
+const $atom = falcor.Model.atom;
 
 export default json => {
   const pathValues = [];
@@ -28,7 +29,13 @@ export default json => {
         }
       }
     } else if (value && (value.constructor === Array)) {
-      pushValue($ref(value));
+      const index = Number.parseInt(currentPath[currentPath.length - 1], 10);
+      // TODO assuming ref is done only from list, i.e. if the last item in current path is a number
+      if (isNaN(index)) {
+        pushValue($atom(value));
+      } else {
+        pushValue($ref(value));
+      }
     } else {
       pushValue(value);
     }
