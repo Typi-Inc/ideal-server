@@ -225,12 +225,15 @@ flatMap(({ deal, user }) =>
 flatMap(({ dealWithComment }) =>
 	Observable.fromPromise(
 		thinky.models.Certificate.save(
-      getRandomLengthArray(30).map(() => new thinky.models.Certificate({
-        title: faker.hacker.noun(),
-        totalCount: Math.round(Math.random() * 100, 0),
-        oldPrice: Math.round(Math.random() * 10000 + 500, 0),
-        newPrice: Math.round(Math.random() * 5000 + 500, 0)
-      }))
+      getRandomLengthArray(30).map(() => {
+        const oldPrice = Math.round(Math.random() * 10000 + 500, 2);
+        return new thinky.models.Certificate({
+          title: faker.hacker.noun(),
+          totalCount: Math.round(Math.random() * 100, 0),
+          oldPrice,
+          newPrice: (dealWithComment.discount * oldPrice) / 100
+        });
+      })
 		)
   ).
   flatMap(certificates => {
