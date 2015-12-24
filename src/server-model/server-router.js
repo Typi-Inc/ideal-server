@@ -28,5 +28,24 @@ export default Router.createClass([
         value: $ref(['dealsById', doc.id])
       }));
     }
+  },
+  {
+    route: 'tagsByText[{keys:text}][{integers:range}]',
+    get({ text, range }) {
+      // TODO do I need multiple texts? text[0]
+      // TODO orderBy rank/number of deals
+      return Observable.fromPromise(
+        thinky.models.Tag.filter(doc => doc('text').match(text[0])).
+          skip(range[0]).limit(range[range.length - 1] + 1)
+      ).flatMap(docs =>
+        Observable.from(docs.map((doc, i) =>
+          ({ doc, i })
+        ))
+      ).
+      map(({ doc, i }) => ({
+        path: ['tagsByText', text, range[i]],
+        value: $ref(['tagsById', doc.id])
+      }));
+    }
   }
 ]);
