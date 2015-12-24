@@ -1,4 +1,6 @@
 import falcor from 'falcor';
+import _ from 'lodash';
+
 const $ref = falcor.Model.ref;
 const $atom = falcor.Model.atom;
 
@@ -29,12 +31,11 @@ export default json => {
         }
       }
     } else if (value && (value.constructor === Array)) {
-      const index = Number.parseInt(currentPath[currentPath.length - 1], 10);
-      // TODO assuming ref is done only from list, i.e. if the last item in current path is a number
-      if (isNaN(index)) {
-        pushValue($atom(value));
-      } else {
+      const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
+      if (value[1] && _.isString(value[1]) && value[1].match(uuidRegex)) {
         pushValue($ref(value));
+      } else {
+        pushValue($atom(value));
       }
     } else {
       pushValue(value);
