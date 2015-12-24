@@ -1,6 +1,7 @@
 import Router from 'falcor-router';
 import { Observable } from 'rx';
 import { routesFromModels } from './generator';
+import _ from 'lodash';
 import thinky from '../db-model';
 import falcor from 'falcor';
 
@@ -38,9 +39,16 @@ export default Router.createClass([
         thinky.models.Tag.filter(doc => doc('text').match(text[0])).
           skip(range[0]).limit(range[range.length - 1] + 1)
       ).flatMap(docs =>
-        Observable.from(docs.map((doc, i) =>
-          ({ doc, i })
-        ))
+        Observable.from(_.sortBy(docs, doc => {
+          const index = doc.text.indexOf(text);
+          if (doc.text === text) {
+            return -1;
+          }
+          return index;
+        })).
+          map((doc, i) =>
+            ({ doc, i })
+          )
       ).
       map(({ doc, i }) => ({
         path: ['tagsByText', text, range[i]],

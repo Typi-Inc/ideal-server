@@ -18,7 +18,7 @@ describe('tagsByText serverModel', () => {
       maxSize: 0
     });
     testTag1 = new db.models.Tag({
-      text: 'coffee'
+      text: 'coffe'
     });
     testTag2 = new db.models.Tag({
       text: 'coffee house'
@@ -65,6 +65,8 @@ describe('tagsByText serverModel', () => {
     then(res => {
       const result = _.values(res.json.tagsByText.coffe);
       expect(result.length).to.equal(4);
+      expect(result[0][1]).to.equal(testTag1.id);
+      expect(result[3][1]).to.equal(testTag3.id);
     })
   );
 });
