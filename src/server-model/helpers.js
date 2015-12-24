@@ -5,6 +5,10 @@ export function arrayToFalcorString(arr) {
   return result;
 }
 
+export function capitalise(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 function getJoinNames(fields) {
   let joinNames = fields;
   if (joinNames.constructor !== Array) {

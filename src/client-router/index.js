@@ -36,7 +36,6 @@ class ClientRouter extends Router.createClass([
   {
     route: 'tagsByText[{keys:text}][{integers:range}]',
     get(pathSet) {
-      console.log(pathSet,'end of client pathSet')
       return forward.call(this, pathSet);
     }
   }

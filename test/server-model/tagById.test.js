@@ -35,7 +35,7 @@ describe('tagsById', () => {
       ).to.equal(testTag1.text);
     })
   );
-  it(`tagsById[{keys:dealIds}].text`, () =>
+  it(`tagsById[{keys:tagIds}].text`, () =>
     model.get([
       'tagsById',
       [testTag1.id, testTag2.id],

@@ -25,7 +25,6 @@ function modelFieldsToRoute(model) {
       map(doc =>
         pathSet[2].map(field => {
           const value = doc[field];
-          console.log(value);
           if (value.constructor === Array) {
             return {
               path: [`${name}ById`, doc.id, field],

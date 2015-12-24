@@ -40,6 +40,7 @@ export default json => {
       pushValue(value);
     }
   };
+  // TODO what if json is undefined?
   compile(json.json);
   return pathValues;
 };

@@ -2,6 +2,7 @@ import Router from 'falcor-router';
 import { Observable } from 'rx';
 import { routesFromModels } from './generator';
 import _ from 'lodash';
+import { capitalise } from './helpers';
 import thinky from '../db-model';
 import falcor from 'falcor';
 
@@ -31,18 +32,21 @@ export default Router.createClass([
     }
   },
   {
-    route:'tagsByText[{keys:text}][{integers:range}]',
+    route: 'tagsByText[{keys:text}][{integers:range}]',
     get({ text, range }) {
-      console.log(text);
       // TODO do I need multiple texts? text[0]
       // TODO orderBy rank/number of deals
+      const lower = text[0].toLowerCase();
+      const cap = capitalise(text[0]);
       return Observable.fromPromise(
-        thinky.models.Tag.filter(doc => doc('text').match(text[0])).
+        thinky.models.Tag.filter(doc =>
+          doc('text').match(cap).or(doc('text').match(lower))
+        ).
           skip(range[0]).limit(range[range.length - 1] + 1)
       ).flatMap(docs =>
         Observable.from(_.sortBy(docs, doc => {
-          const index = doc.text.indexOf(text);
-          if (doc.text === text) {
+          const index = doc.text.toLowerCase().indexOf(lower);
+          if (doc.text.toLowerCase() === lower) {
             return -1;
           }
           return index;
@@ -51,7 +55,7 @@ export default Router.createClass([
             ({ doc, i })
           )
       ).
-      map(({ doc, i }) => console.log(doc,'here is tested doc')||({
+      map(({ doc, i }) => ({
         path: ['tagsByText', text, range[i]],
         value: $ref(['tagsById', doc.id])
       }));

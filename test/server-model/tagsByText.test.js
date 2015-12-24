@@ -21,7 +21,7 @@ describe('tagsByText serverModel', () => {
       text: 'coffe'
     });
     testTag2 = new db.models.Tag({
-      text: 'coffee house'
+      text: 'Coffee house'
     });
     testTag3 = new db.models.Tag({
       text: 'Mr coffee'
