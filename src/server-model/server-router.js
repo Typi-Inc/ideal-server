@@ -31,8 +31,9 @@ export default Router.createClass([
     }
   },
   {
-    route: 'tagsByText[{keys:text}][{integers:range}]',
+    route:'tagsByText[{keys:text}][{integers:range}]',
     get({ text, range }) {
+      console.log(text);
       // TODO do I need multiple texts? text[0]
       // TODO orderBy rank/number of deals
       return Observable.fromPromise(
@@ -50,7 +51,7 @@ export default Router.createClass([
             ({ doc, i })
           )
       ).
-      map(({ doc, i }) => ({
+      map(({ doc, i }) => console.log(doc,'here is tested doc')||({
         path: ['tagsByText', text, range[i]],
         value: $ref(['tagsById', doc.id])
       }));
