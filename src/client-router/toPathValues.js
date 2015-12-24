@@ -31,7 +31,7 @@ export default json => {
         }
       }
     } else if (value && (value.constructor === Array)) {
-      const uuidRegex = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
+      const uuidRegex = /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/;
       if (value[1] && _.isString(value[1]) && value[1].match(uuidRegex)) {
         pushValue($ref(value));
       } else {
