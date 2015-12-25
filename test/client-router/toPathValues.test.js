@@ -4,8 +4,8 @@ import toPathValues from '../../src/client-router/toPathValues';
 
 const $ref = falcor.Model.ref;
 
-describe('toPathValues', () => {
-  it('works with an object with no siblings', () => {
+describe('toPathValues', function describe() {
+  it('works with an object with no siblings', function test() {
     const json = {
       json: {
         dealsById: {
@@ -27,7 +27,7 @@ describe('toPathValues', () => {
     expect(result[0]).to.deep.equal(expected[0]);
     expect(result.length).to.equal(expected.length);
   });
-  it('works with an object with siblings', () => {
+  it('works with an object with siblings', function test() {
     const json = {
       json: {
         dealsById: {
@@ -90,7 +90,7 @@ describe('toPathValues', () => {
       expect(result[i]).to.deep.equal(expected[i]);
     }
   });
-  it('should work with object that contains circular references', () => {
+  it('should work with object that contains circular references', function test() {
     const json = {
       json: {
         dealsById: {
@@ -176,7 +176,7 @@ describe('toPathValues', () => {
       expect(result[i]).to.deep.equal(expected[i]);
     }
   });
-  it('works with an object with one sibling inside nest', () => {
+  it('works with an object with one sibling inside nest', function test() {
     const json = {
       json: {
         dealsById: {
@@ -205,7 +205,7 @@ describe('toPathValues', () => {
       expect(result[i]).to.deep.equal(expected[i]);
     }
   });
-  it('works with refs from serverModel', () => {
+  it('works with refs from serverModel', function test() {
     const json = {
       json: {
         dealsById: {

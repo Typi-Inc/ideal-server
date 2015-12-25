@@ -4,9 +4,9 @@ import ClientRouter from '../../src/client-router/index';
 
 const $atom = falcor.Model.atom;
 
-describe('atoms test client router', () => {
+describe('atoms test client router', function describe() {
   let model;
-  before(() => {
+  before(function before() {
     const serverModel = new falcor.Model({
       cache: {
         businessesById: {
@@ -35,8 +35,8 @@ describe('atoms test client router', () => {
       maxSize: 0
     });
   });
-  it(`businessessById['1f6527f3-c99d-4ff0-b31f-09cb793b966f']['phones', 'schedule']`, () =>
-    model.get([
+  it(`businessessById['1f6527f3-c99d-4ff0-b31f-09cb793b966f']['phones', 'schedule']`, function test() {
+    return model.get([
       'businessesById',
       '99bca56f-7fb4-469b-8815-1edfd557d244',
       ['phones', 'schedule']
@@ -65,6 +65,6 @@ describe('atoms test client router', () => {
       for (let i = 0; i < schedule.length; i++) {
         expect(schedule[i]).to.equal(expectedSchedule[i]);
       }
-    })
-  );
+    });
+  });
 });

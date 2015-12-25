@@ -60,5 +60,37 @@ export default Router.createClass([
         value: $ref(['tagsById', doc.id])
       }));
     }
+  },
+  {
+    route: 'dealsByTags[{keys:tagIdsString}][{integers:range}]',
+    get({ tagIdsString, range }) {
+      // TODO work with multiple tagIds in case of batching operators
+      const tagIds = tagIdsString[0].split('&');
+      return Observable.fromPromise(
+        thinky.models.Deal.getJoin({ tags: true }).
+        filter(doc =>
+          doc('tags').filter(tag =>
+            thinky.r.expr(tagIds).contains(tag('id'))
+          ).isEmpty().not()
+        )
+        .orderBy(thinky.r.desc(row =>
+            row('tags').count(tag =>
+              thinky.r.expr(tagIds).contains(tag('id'))
+            )
+          )
+        )
+        .orderBy(thinky.r.desc(row =>
+             row('payout').add(row('discount')).div(row('watchCount').add(thinky.r.expr(1)))
+          )
+        )
+      ).
+      flatMap(docs =>
+        Observable.from(docs)
+      ).
+      map((doc, i) => ({
+        path: ['dealsByTags', tagIdsString[0], range[i]],
+        value: $ref(['dealsById', doc.id])
+      }));
+    }
   }
 ]);

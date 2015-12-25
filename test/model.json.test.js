@@ -5,7 +5,7 @@ import HttpDataSource from 'falcor-http-datasource';
 import routes from '../src/express-routes';
 import db from '../src/db-model';
 
-describe('Falcor requests', () => {
+describe('Falcor requests', function describe() {
   let server;
   let model;
   let testDeal1;
@@ -19,7 +19,7 @@ describe('Falcor requests', () => {
   let commentFiltersAndSorts2;
   let commentFiltersAndSorts3;
   let commentFiltersAndSorts4;
-  before(() => {
+  before(function before() {
     const app = express();
     app.use(routes);
     model = new falcor.Model({
@@ -80,9 +80,9 @@ describe('Falcor requests', () => {
       commentFiltersAndSorts3,
       commentFiltersAndSorts4
     ];
-    return testDeal1.saveAll({ business: true, comments: true }).then(
-      testDeal2.saveAll().then(
-        testDealFiltersAndSorts.saveAll({ comments: true }).then(
+    return testDeal1.saveAll({ business: true, comments: true }).then(() =>
+      testDeal2.saveAll().then(() =>
+        testDealFiltersAndSorts.saveAll({ comments: true }).then(() =>
           new Promise((resolve, reject) => {
             server = app.listen(1337, err => {
               if (err) {
@@ -96,20 +96,20 @@ describe('Falcor requests', () => {
       )
     );
   });
-  after(() => {
+  after(function after() {
     server.close();
-    return testDeal1.deleteAll({ business: true, comments: true }).then(
-      testDeal2.deleteAll().then(
+    return testDeal1.deleteAll({ business: true, comments: true }).then(() =>
+      testDeal2.deleteAll().then(() =>
         testDealFiltersAndSorts.deleteAll({ comments: true })
       )
     );
   });
-  it('should retrieve deals', () =>
-    model.get(['dealsById', testDeal1.id, 'title']).
+  it('should retrieve deals', function test() {
+    return model.get(['dealsById', testDeal1.id, 'title']).
     then(res => {
       expect(
         res.json.dealsById[testDeal1.id].title
       ).to.equal(testDeal1.title);
-    })
-  );
+    });
+  });
 });

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import ServerRouter from '../../src/server-model/server-router';
 import db from '../../src/db-model';
 
-describe('dealsById', () => {
+describe('dealsById', function describe() {
   let model;
   let testDeal1;
   let testDeal2;
@@ -17,7 +17,7 @@ describe('dealsById', () => {
   let commentFiltersAndSorts2;
   let commentFiltersAndSorts3;
   let commentFiltersAndSorts4;
-  before(() => {
+  before(function before() {
     model = new falcor.Model({
       source: new ServerRouter(),
       maxSize: 0
@@ -77,29 +77,29 @@ describe('dealsById', () => {
       commentFiltersAndSorts3,
       commentFiltersAndSorts4
     ];
-    return testDeal1.saveAll({ business: true, comments: true }).then(
-      testDeal2.saveAll().then(
+    return testDeal1.saveAll({ business: true, comments: true }).then(() =>
+      testDeal2.saveAll().then(() =>
         testDealFiltersAndSorts.saveAll({ comments: true })
       )
     );
   });
-  after(() => {
-    return testDeal1.deleteAll({ business: true, comments: true }).then(
-      testDeal2.deleteAll().then(
+  after(function after() {
+    return testDeal1.deleteAll({ business: true, comments: true }).then(() =>
+      testDeal2.deleteAll().then(() =>
         testDealFiltersAndSorts.deleteAll({ comments: true })
       )
     );
   });
-  it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].title`, () =>
-    model.get(['dealsById', testDeal1.id, 'title']).
+  it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].title`, function test() {
+    return model.get(['dealsById', testDeal1.id, 'title']).
     then(res => {
       expect(
         res.json.dealsById[testDeal1.id].title
       ).to.equal(testDeal1.title);
-    })
-  );
-  it(`dealsById[{keys:dealIds}].title`, () =>
-    model.get([
+    });
+  });
+  it(`dealsById[{keys:dealIds}].title`, function test() {
+    return model.get([
       'dealsById',
       [testDeal1.id, testDeal2.id],
       'title'
@@ -111,11 +111,11 @@ describe('dealsById', () => {
       expect(
         res.json.dealsById[testDeal2.id].title
       ).to.equal(testDeal2.title);
-    })
-  );
+    });
+  });
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-    comments['sort:createdAt=desc'].edges[0]`, () =>
-    model.get([
+    comments['sort:createdAt=desc'].edges[0]`, function test() {
+    return model.get([
       'dealsById',
       testDeal1.id,
       'comments',
@@ -130,8 +130,8 @@ describe('dealsById', () => {
       expect(edges[0][0]).to.equal('commentsById');
       expect(edges[0][1]).to.equal(comment3.id);
       expect(edges[0].length).to.equal(2);
-    })
-  );
+    });
+  });
   // it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
   //   comments.edges[0]`, () =>
   //   model.get([
@@ -150,8 +150,8 @@ describe('dealsById', () => {
   //   })
   // );
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-    comments['sort:createdAt=desc'].edges[0..1]`, () =>
-    model.get([
+    comments['sort:createdAt=desc'].edges[0..1]`, function test() {
+    return model.get([
       'dealsById',
       testDeal1.id,
       'comments',
@@ -169,8 +169,8 @@ describe('dealsById', () => {
       expect(edges[1][0]).to.equal('commentsById');
       expect(edges[1][1]).to.equal(comment2.id);
       expect(edges[1].length).to.equal(2);
-    })
-  );
+    });
+  });
   // it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
   //   comments.edges[0..1]`, () =>
   //   model.get(['dealsById', testDeal1.id, 'comments', 'edges', { from: 0, to: 1 }]).
@@ -186,8 +186,8 @@ describe('dealsById', () => {
   //   })
   // );
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-    comments['sort:createdAt=desc'].edges[1..2]`, () =>
-    model.get([
+    comments['sort:createdAt=desc'].edges[1..2]`, function test() {
+    return model.get([
       'dealsById',
       testDeal1.id,
       'comments',
@@ -205,8 +205,8 @@ describe('dealsById', () => {
       expect(edges[2][0]).to.equal('commentsById');
       expect(edges[2][1]).to.equal(comment1.id);
       expect(edges[2].length).to.equal(2);
-    })
-  );
+    });
+  });
   // it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
   //   comments['sort:createdAt=desc'].edges[1..2]`, () =>
   //   model.get(['dealsById', testDeal1.id, 'comments', 'edges', { from: 1, to: 2 }]).
@@ -222,8 +222,8 @@ describe('dealsById', () => {
   //   })
   // );
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-    comments['sort:createdAt=desc'].edges[0] when there are no comments`, () =>
-    model.get([
+    comments['sort:createdAt=desc'].edges[0] when there are no comments`, function test() {
+    return model.get([
       'dealsById',
       testDeal2.id,
       'comments',
@@ -233,8 +233,8 @@ describe('dealsById', () => {
     ]).
     then(res => {
       expect(res).to.be.undefined; // eslint-disable-line
-    })
-  );
+    });
+  });
   // it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
   //   comments.edges[0] when there are no comments`, () =>
   //   model.get([
@@ -251,8 +251,8 @@ describe('dealsById', () => {
   it(`dealsById[
     '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
     '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
-  ].comments['sort:createdAt=desc'].edges[1..2] both undefined and normal`, () =>
-    model.get([
+  ].comments['sort:createdAt=desc'].edges[1..2] both undefined and normal`, function test() {
+    return model.get([
       'dealsById',
       [testDeal1.id, testDeal2.id],
       'comments',
@@ -271,8 +271,8 @@ describe('dealsById', () => {
       expect(edges[2][0]).to.equal('commentsById');
       expect(edges[2][1]).to.equal(comment1.id);
       expect(edges[2].length).to.equal(2);
-    })
-  );
+    });
+  });
   // it(`dealsById[
   //   '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
   //   '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
@@ -299,8 +299,8 @@ describe('dealsById', () => {
   it(`dealsById[
     '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
     '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
-  ].comments['sort:createdAt=desc'].count`, () =>
-    model.get([
+  ].comments['sort:createdAt=desc'].count`, function test() {
+    return model.get([
       'dealsById',
       [testDeal1.id, testDeal2.id],
       'comments',
@@ -314,8 +314,8 @@ describe('dealsById', () => {
       const count =
         res.json.dealsById[testDeal1.id].comments['sort:createdAt=desc'].count;
       expect(count).to.equal(3);
-    })
-  );
+    });
+  });
   // it(`dealsById[
   //   '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
   //   '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
@@ -335,8 +335,8 @@ describe('dealsById', () => {
   it(`dealsById[
     '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
     '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
-  ].business`, () =>
-    model.get([
+  ].business`, function test() {
+    return model.get([
       'dealsById',
       [testDeal1.id, testDeal2.id],
       'business'
@@ -348,11 +348,11 @@ describe('dealsById', () => {
       expect(business.length).to.equal(2);
       expect(business[0]).to.equal('businessesById');
       expect(business[1]).to.equal(business1.id);
-    })
-  );
+    });
+  });
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-    comments['where:text=yo&sort:createdAt=desc'].edges[0..5]`, () =>
-    model.get([
+    comments['where:text=yo&sort:createdAt=desc'].edges[0..5]`, function test() {
+    return model.get([
       'dealsById',
       testDealFiltersAndSorts.id,
       'comments',
@@ -373,11 +373,11 @@ describe('dealsById', () => {
       expect(edges[2][0]).to.equal('commentsById');
       expect(edges[2][1]).to.equal(commentFiltersAndSorts2.id);
       expect(edges[2].length).to.equal(2);
-    })
-  );
+    });
+  });
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-    comments['where:text=yo,idAuthor=1&sort:createdAt=desc'].edges[0..5]`, () =>
-    model.get([
+    comments['where:text=yo,idAuthor=1&sort:createdAt=desc'].edges[0..5]`, function test() {
+    return model.get([
       'dealsById',
       testDealFiltersAndSorts.id,
       'comments',
@@ -395,11 +395,11 @@ describe('dealsById', () => {
       expect(edges[1][0]).to.equal('commentsById');
       expect(edges[1][1]).to.equal(commentFiltersAndSorts2.id);
       expect(edges[1].length).to.equal(2);
-    })
-  );
+    });
+  });
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-    comments['where:text=yo,idAuthor=5&sort:createdAt=desc'].edges[0..5]`, () =>
-    model.get([
+    comments['where:text=yo,idAuthor=5&sort:createdAt=desc'].edges[0..5]`, function test() {
+    return model.get([
       'dealsById',
       testDealFiltersAndSorts.id,
       'comments',
@@ -409,14 +409,14 @@ describe('dealsById', () => {
     ]).
     then(res => {
       expect(res).to.be.undefined; // eslint-disable-line
-    })
-  );
+    });
+  });
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
     comments[
       'where:text=yo,idAuthor=1&sort:createdAt=desc',
       'where:text=yo,idAuthor=1&sort:createdAt=asc',
-    ].edges[0..5]`, () =>
-    model.get([
+    ].edges[0..5]`, function test() {
+    return model.get([
       'dealsById',
       testDealFiltersAndSorts.id,
       'comments',
@@ -446,13 +446,13 @@ describe('dealsById', () => {
       expect(edges1[1][0]).to.equal('commentsById');
       expect(edges1[1][1]).to.equal(commentFiltersAndSorts1.id);
       expect(edges1[1].length).to.equal(2);
-    })
-  );
+    });
+  });
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f',].comments[
     'where:text=yo,idAuthor=1&sort:createdAt=desc',
     'where:text=yo,idAuthor=1&sort:createdAt=asc',
-  ].count`, () =>
-    model.get([
+  ].count`, function test() {
+    return model.get([
       'dealsById',
       testDealFiltersAndSorts.id,
       'comments',
@@ -469,7 +469,7 @@ describe('dealsById', () => {
       const count1 = res.json.dealsById[testDealFiltersAndSorts.id].
         comments['where:text=yo,idAuthor=1&sort:createdAt=asc'].count;
       expect(count1).to.equal(2);
-    })
-  );
+    });
+  });
   // TODO test errors
 });

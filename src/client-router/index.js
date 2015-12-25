@@ -38,6 +38,12 @@ class ClientRouter extends Router.createClass([
     get(pathSet) {
       return forward.call(this, pathSet);
     }
+  },
+  {
+    route: 'dealsByTags[{keys:tagIds}][{integers:range}]',
+    get(pathSet) {
+      return forward.call(this, pathSet);
+    }
   }
 ]) {
   constructor(serverModel, user) {

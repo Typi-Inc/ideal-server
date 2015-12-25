@@ -5,9 +5,9 @@ import ClientRouter from '../../src/client-router/index';
 
 const $ref = falcor.Model.ref;
 
-describe('dealsById clientRouter', () => {
+describe('dealsById clientRouter', function describe() {
   let model;
-  before(() => {
+  before(function before() {
     const serverModel = new falcor.Model({
       cache: {
         dealsById: {
@@ -65,8 +65,8 @@ describe('dealsById clientRouter', () => {
       maxSize: 0
     });
   });
-  it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].title`, () =>
-    model.
+  it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].title`, function test() {
+    return model.
       get([
         'dealsById',
         [
@@ -80,13 +80,13 @@ describe('dealsById clientRouter', () => {
         expect(
           res.json.dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].title
         ).to.equal('hello');
-      })
-  );
+      });
+  });
   it(`dealsById[
     '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
     '16bca56f-7fb4-469b-8815-1edfd557d244'
-  ].title`, () =>
-    model.
+  ].title`, function test() {
+    return model.
       get([
         'dealsById',
         [
@@ -102,12 +102,12 @@ describe('dealsById clientRouter', () => {
         expect(
           res.json.dealsById['16bca56f-7fb4-469b-8815-1edfd557d244'].title
         ).to.equal('world');
-      })
-  );
+      });
+  });
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
     comments['sort:createdAt=desc'].edges[0]
-    completes with path to other part of JSONG`, () =>
-    model.
+    completes with path to other part of JSONG`, function test() {
+    return model.
       get([
         'dealsById',
         [
@@ -125,8 +125,8 @@ describe('dealsById clientRouter', () => {
         expect(comment[0]).to.equal('commentsById');
         expect(comment[1]).to.equal('26bca56f-7fb4-469b-8815-1edfd557d244');
         expect(comment.length).to.equal(2);
-      })
-  );
+      });
+  });
   // it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
   //   comments.edges[0]
   //   completes with path to other part of JSONG`, () =>
@@ -150,8 +150,8 @@ describe('dealsById clientRouter', () => {
   // );
   it(`dealsById['16bca56f-7fb4-469b-8815-1edfd557d244'].
     comments['sort:createdAt=desc'].edges[0]
-    completes with undefined without error`, () =>
-    model.
+    completes with undefined without error`, function test() {
+    return model.
       get([
         'dealsById',
         [
@@ -164,8 +164,8 @@ describe('dealsById clientRouter', () => {
       ]).
       then(res => {
         expect(res).to.be.undefined; // eslint-disable-line
-      })
-  );
+      });
+  });
   // it(`dealsById['16bca56f-7fb4-469b-8815-1edfd557d244'].
   //   comments.edges[0]
   //   completes with undefined without error`, () =>
@@ -187,8 +187,8 @@ describe('dealsById clientRouter', () => {
     '16bca56f-7fb4-469b-8815-1edfd557d244',
     '1f6527f3-c99d-4ff0-b31f-09cb793b966f'
   ].comments['sort:createdAt=desc'].edges[0]
-  completes with undefined and path`, () =>
-    model.
+  completes with undefined and path`, function test() {
+    return model.
       get([
         'dealsById',
         [
@@ -209,8 +209,8 @@ describe('dealsById clientRouter', () => {
         expect(comment.length).to.equal(2);
         expect(res.json.dealsById['16bca56f-7fb4-469b-8815-1edfd557d244']). // eslint-disable-line
           to.be.undefined;
-      })
-  );
+      });
+  });
   // it(`dealsById[
   //   '16bca56f-7fb4-469b-8815-1edfd557d244',
   //   '1f6527f3-c99d-4ff0-b31f-09cb793b966f'
@@ -241,8 +241,8 @@ describe('dealsById clientRouter', () => {
     '16bca56f-7fb4-469b-8815-1edfd557d244',
     '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
   ].comments['sort:createdAt=desc'].edges[0..9]
-  completes with path only for the latter id`, () =>
-    model.
+  completes with path only for the latter id`, function test() {
+    return model.
       get([
         'dealsById',
         [
@@ -274,8 +274,8 @@ describe('dealsById clientRouter', () => {
         expect(comments2[1][1]).to.equal('36bca56f-7fb4-469b-8815-1edfd557d244');
         expect(res.json.dealsById['16bca56f-7fb4-469b-8815-1edfd557d244']). // eslint-disable-line
           to.be.undefined;
-      })
-  );
+      });
+  });
   // it(`dealsById[
   //   '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
   //   '16bca56f-7fb4-469b-8815-1edfd557d244',
@@ -315,8 +315,8 @@ describe('dealsById clientRouter', () => {
   it(`dealsById[
     '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
     '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
-  ].business completes well`, () => // TODO rename to business
-    model.
+  ].business completes well`, function test() { // TODO rename to business
+    return model.
       get([
         'dealsById',
         [
@@ -333,7 +333,7 @@ describe('dealsById clientRouter', () => {
         expect(business[1]).to.equal('99bca56f-7fb4-469b-8815-1edfd557d244');
         expect(res.json.dealsById['2f6527f3-c99d-4ff0-b31f-09cb793b966f']). // eslint-disable-line
           to.be.undefined;
-      })
-  );
+      });
+  });
   // TODO test errors
 });

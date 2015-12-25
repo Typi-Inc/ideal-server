@@ -4,7 +4,7 @@ import _ from 'lodash';
 import ServerRouter from '../../src/server-model/server-router';
 import db from '../../src/db-model';
 
-describe('tagsByText serverModel', () => {
+describe('tagsByText serverModel', function describe() {
   let model;
   let testTag1;
   let testTag2;
@@ -12,7 +12,7 @@ describe('tagsByText serverModel', () => {
   let testTag4;
   let testTag5;
   let testTag6;
-  before(() => {
+  before(function before() {
     model = new falcor.Model({
       source: new ServerRouter(),
       maxSize: 0
@@ -35,11 +35,11 @@ describe('tagsByText serverModel', () => {
     testTag6 = new db.models.Tag({
       text: 'werwqerqwer'
     });
-    return testTag1.save().then(
-        testTag2.save().then(
-          testTag3.save().then(
-            testTag4.save().then(
-              testTag5.save().then(
+    return testTag1.save().then(() =>
+        testTag2.save().then(() =>
+          testTag3.save().then(() =>
+            testTag4.save().then(() =>
+              testTag5.save().then(() =>
                 testTag6.save()
               )
             )
@@ -47,12 +47,12 @@ describe('tagsByText serverModel', () => {
         )
       );
   });
-  after(() => {
-    return testTag1.delete().then(
-        testTag2.delete().then(
-          testTag3.delete().then(
-            testTag4.delete().then(
-              testTag5.delete().then(
+  after(function after() {
+    return testTag1.delete().then(() =>
+        testTag2.delete().then(() =>
+          testTag3.delete().then(() =>
+            testTag4.delete().then(() =>
+              testTag5.delete().then(() =>
                 testTag6.delete()
               )
             )
@@ -60,13 +60,13 @@ describe('tagsByText serverModel', () => {
         )
       );
   });
-  it(`tagsByText['coffe'][0..20]`, () =>
-    model.get(['tagsByText', 'coffe', { from: 0, to: 20 }]).
+  it(`tagsByText['coffe'][0..20]`, function test() {
+    return model.get(['tagsByText', 'coffe', { from: 0, to: 20 }]).
     then(res => {
       const result = _.values(res.json.tagsByText.coffe);
       expect(result.length).to.equal(4);
       expect(result[0][1]).to.equal(testTag1.id);
       expect(result[3][1]).to.equal(testTag3.id);
-    })
-  );
+    });
+  });
 });
