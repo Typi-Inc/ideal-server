@@ -72,17 +72,16 @@ export default Router.createClass([
           doc('tags').filter(tag =>
             thinky.r.expr(tagIds).contains(tag('id'))
           ).isEmpty().not()
-        )
-        .orderBy(thinky.r.desc(row =>
+        ).orderBy(thinky.r.desc(row =>
             row('tags').count(tag =>
               thinky.r.expr(tagIds).contains(tag('id'))
             )
           )
-        )
-        .orderBy(thinky.r.desc(row =>
+        ).orderBy(thinky.r.desc(row =>
              row('payout').add(row('discount')).div(row('watchCount').add(thinky.r.expr(1)))
           )
-        )
+        ).
+        skip(range[0]).limit(range[range.length - 1] + 1)
       ).
       flatMap(docs =>
         Observable.from(docs)
