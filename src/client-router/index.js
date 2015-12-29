@@ -42,6 +42,7 @@ class ClientRouter extends Router.createClass([
   {
     route: 'dealsByTags[{keys:tagIds}][{integers:range}]',
     get(pathSet) {
+      console.log(pathSet);
       return forward.call(this, pathSet);
     }
   }

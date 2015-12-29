@@ -69,9 +69,9 @@ describe('dealsByTags serverModel', function describe() {
     );
   });
   it(`dealsByTags['fasfasdfa12312sdf&asdfsadfas231df'][0..20]`, function test() {
-    return model.get(['dealsByTags', [testTag2.id, testTag3.id].join('&'), { from: 0, to: 20 }]).
+    return model.get(['dealsByTags', [testTag2.id, testTag3.id].join(','), { from: 0, to: 20 }]).
     then(res => {
-      const query = [testTag2.id, testTag3.id].join('&');
+      const query = [testTag2.id, testTag3.id].join(',');
       const result = _.values(res.json.dealsByTags[query]);
       expect(result.length).to.equal(3);
       expect(result[0][1]).to.equal(testDeal4.id);

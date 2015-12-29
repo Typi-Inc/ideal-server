@@ -65,7 +65,7 @@ export default Router.createClass([
     route: 'dealsByTags[{keys:tagIdsString}][{integers:range}]',
     get({ tagIdsString, range }) {
       // TODO work with multiple tagIds in case of batching operators
-      const tagIds = tagIdsString[0].split('&');
+      const tagIds = tagIdsString[0].split(',');
       return Observable.fromPromise(
         thinky.models.Deal.getJoin({ tags: true }).
         filter(doc =>
@@ -82,7 +82,7 @@ export default Router.createClass([
         .orderBy(thinky.r.desc(row =>
              row('payout').add(row('discount')).div(row('watchCount').add(thinky.r.expr(1)))
           )
-        )
+        ).skip(range[0]).limit(range[range.length - 1] + 1)
       ).
       flatMap(docs =>
         Observable.from(docs)
