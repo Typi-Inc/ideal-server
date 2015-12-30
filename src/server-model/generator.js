@@ -44,6 +44,7 @@ function modelFieldsToRoute(model) {
 function modelHasOneAndBelongsToJoinsToRoute(model, models) {
   const name = model.plural;
   const getPluralName = (joinName) => {
+
     const capedJoinName = joinName.charAt(0).toUpperCase() + joinName.slice(1);
     return models[capedJoinName].plural;
   };
@@ -70,7 +71,7 @@ function modelHasOneAndBelongsToJoinsToRoute(model, models) {
       ).filter(({ joinedDoc }) => joinedDoc).
       map(({ docId, joinedDoc, joinName }) => ({
         path: [`${name}ById`, docId, joinName],
-        value: $ref([`${getPluralName(joinName)}ById`, joinedDoc.id])
+        value: $ref([`${joinedDoc.constructor.plural}ById`, joinedDoc.id])
       }));
     }
   };
@@ -136,7 +137,7 @@ function modelHasManyAndHasAndBelongsToManyJoinsToRoutes(model, r) {
               docId, joinedDoc, joinName, index: i, filterAndSortString
             }))
           ).
-          map(({ docId, joinedDoc, joinName, index, filterAndSortString }) => ({
+          map(({ docId, joinedDoc, joinName, index, filterAndSortString }) => console.log(joinedDoc)||({
             path: [`${name}ById`, docId, joinName, filterAndSortString, 'edges', range[index]],
             value: $ref([`${joinedDoc.constructor.plural}ById`, joinedDoc.id])
           }));
