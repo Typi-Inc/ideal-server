@@ -36,9 +36,6 @@ export default Router.createClass([
     get({ text, range }) {
       // TODO do I need multiple texts? text[0]
       // TODO orderBy rank/number of deals
-      if (String(text[0]).match(/^[\[|\]|\+|0-9]/)) {
-        return Observable.empty();
-      }
       const lower = text[0].toLowerCase();
       const cap = capitalise(text[0]);
       return Observable.fromPromise(

@@ -1,5 +1,6 @@
 import Router from 'falcor-router';
 import { clientRoutesFromModels } from './generator';
+import { Observable } from 'rx';
 import falcor from 'falcor';
 import forward from './forwardToServerModel';
 import thinky from '../db-model';
@@ -36,13 +37,15 @@ class ClientRouter extends Router.createClass([
   {
     route: 'tagsByText[{keys:text}][{integers:range}]',
     get(pathSet) {
+      if (String(pathSet.text[0]).match(/^[\[|\]|\+|0-9]/)) {
+        return Observable.empty();
+      }
       return forward.call(this, pathSet);
     }
   },
   {
     route: 'dealsByTags[{keys:tagIds}][{integers:range}]',
     get(pathSet) {
-      console.log(pathSet);
       return forward.call(this, pathSet);
     }
   }

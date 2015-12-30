@@ -255,7 +255,7 @@ flatMap(({ dealWithComment }) =>
       getRandomLengthArray(30).map(() => {
         const oldPrice = Math.round(Math.random() * 100) * 100 + 500;
         return new thinky.models.Certificate({
-          title: faker.hacker.noun(),
+          title: faker.lorem.sentence(),
           totalCount: Math.round(Math.random() * 100, 0),
           oldPrice,
           newPrice: (dealWithComment.discount * oldPrice) / 100

@@ -112,4 +112,28 @@ describe('Falcor requests', function describe() {
       ).to.equal(testDeal1.title);
     });
   });
+  it('should not throw on special characters: +', function test() {
+    return model.get(['tagsByText', '+', 'title']).
+    then(res => {
+      expect(res).to.be.undefined; // eslint-disable-line
+    });
+  });
+  it('should not throw on special characters: []', function test() {
+    return model.get(['tagsByText', '[', { from: 0, to: 20 }]).
+    then(res => {
+      expect(res).to.be.undefined; // eslint-disable-line
+    });
+  });
+  it('should not throw on numbers: 0-9', function test() {
+    return model.get(['tagsByText', '0', { from: 0, to: 20 }]).
+    then(res => {
+      expect(res).to.be.undefined; // eslint-disable-line
+    });
+  });
+  it('is fine when special characters or numbers are inside the string', function test() {
+    return model.get(['tagsByText', '+0', { from: 0, to: 20 }]).
+    then(res => {
+      expect(res).to.be.undefined; // eslint-disable-line
+    });
+  });
 });
