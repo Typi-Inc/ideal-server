@@ -10,12 +10,13 @@ const router = Router(); // eslint-disable-line
 const authenticate = jwt({ // eslint-disable-line
   secret: new Buffer(JWT_SECRET, 'base64'),
   // TODO move audience to config
-  audience: 'QcskF7WET5whF3Cs8UvcwIHqlZ8FeqKu'
+  audience: 'QcskF7WET5whF3Cs8UvcwIHqlZ8FeqKu',
+  credentialsRequired: false
 });
 
 router.all(
   '/model.json',
-  // authenticate,
+  authenticate,
   falcorExpress.dataSourceRoute(req => new ClientRouter(serverModel, req.user))
 );
 

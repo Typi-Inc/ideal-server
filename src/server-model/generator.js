@@ -41,13 +41,8 @@ function modelFieldsToRoute(model) {
   };
 }
 
-function modelHasOneAndBelongsToJoinsToRoute(model, models) {
+function modelHasOneAndBelongsToJoinsToRoute(model) {
   const name = model.plural;
-  const getPluralName = (joinName) => {
-
-    const capedJoinName = joinName.charAt(0).toUpperCase() + joinName.slice(1);
-    return models[capedJoinName].plural;
-  };
   return {
     route: `${name}ById[{keys:ids}][{keys:fields}]`,
     get(pathSet) {
@@ -137,7 +132,7 @@ function modelHasManyAndHasAndBelongsToManyJoinsToRoutes(model, r) {
               docId, joinedDoc, joinName, index: i, filterAndSortString
             }))
           ).
-          map(({ docId, joinedDoc, joinName, index, filterAndSortString }) => console.log(joinedDoc)||({
+          map(({ docId, joinedDoc, joinName, index, filterAndSortString }) => ({
             path: [`${name}ById`, docId, joinName, filterAndSortString, 'edges', range[index]],
             value: $ref([`${joinedDoc.constructor.plural}ById`, joinedDoc.id])
           }));
@@ -208,7 +203,7 @@ export function routesFromModels(thinky) {
       const model = models[modelName];
       result.push(
         modelFieldsToRoute(model),
-        modelHasOneAndBelongsToJoinsToRoute(model, models),
+        modelHasOneAndBelongsToJoinsToRoute(model),
         ...modelHasManyAndHasAndBelongsToManyJoinsToRoutes(model, r)
       );
     }

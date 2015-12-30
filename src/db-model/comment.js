@@ -8,7 +8,6 @@ const Comment = thinky.createModel('Comment', {
 
 Comment.plural = 'comments';
 Comment.ready().then(() => {
-
-	Comment.belongsTo(thinky.models.User, 'author', 'idAuthor', 'id');
+  Comment.belongsTo(thinky.models.User, 'author', 'idAuthor', 'id');
 });
 export default Comment;
