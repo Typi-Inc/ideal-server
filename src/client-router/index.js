@@ -4,6 +4,7 @@ import { Observable } from 'rx';
 import falcor from 'falcor';
 import forward from './forwardToServerModel';
 import thinky from '../db-model';
+import toPathValues from './toPathValues';
 
 const $ref = falcor.Model.ref;
 const $error = falcor.Model.error;
@@ -54,7 +55,9 @@ class ClientRouter extends Router.createClass([
     call(...args) {
       // TODO for now it is ok, as call returns undeined,
       // but when refPaths will start working, will have to rewrite
-      return forward.call(this, ...args);
+      return this.serverModel.
+        call(...args).
+        map(json => toPathValues(json));
     }
   }
 ]) {
