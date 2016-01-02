@@ -22,12 +22,11 @@ describe('call test', function describe() {
     return model.call(
       ['users', 'create'],
       [args],
-      [['email']]
+      ['email']
       // [['featuredDeals', { from: 0, to: 1 }, 'title']]
     ).
     then(res => {
-      const usersById = res.json.usersById;
-      expect(usersById[Object.keys(usersById)[0]].email).to.equal('test@gmail.com');
+      expect(res.json.users.new.email).to.equal('test@gmail.com');
     });
   });
 });

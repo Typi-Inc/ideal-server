@@ -105,7 +105,8 @@ export default Router.createClass([
         map(() => [
           {
             // TODO refPaths, thisPaths not working https://github.com/Netflix/falcor/issues/681
-            path: ['usersById', user.id]
+            path: ['users', 'new'],
+            value: $ref(['usersById', user.id])
           }
         ]);
     }
