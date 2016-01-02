@@ -93,17 +93,21 @@ export default Router.createClass([
   },
   {
     route: 'users.create',
-    call(callPath, args, localFields, fatQuery) {
-      const user = new thinky.User({
-        email: args.email,
-        name: args.name,
-        image: args.picture
-        social: args.userId
+    call(callPath, args) {
+      const user = new thinky.models.User({
+        email: args[0].email,
+        name: args[0].name,
+        image: args[0].picture,
+        social: args[0].userId
         // TODO city
       });
-
-      return Observable.from(user.save()).
-        map(user => )
+      return Observable.fromPromise(user.save()).
+        map(() => [
+          {
+            // TODO refPaths, thisPaths not working https://github.com/Netflix/falcor/issues/681
+            path: ['usersById', user.id]
+          }
+        ]);
     }
   }
 ]);

@@ -48,11 +48,13 @@ class ClientRouter extends Router.createClass([
     get(pathSet) {
       return forward.call(this, pathSet);
     }
-  }
+  },
   {
     route: 'users.create',
     call(...args) {
-      return forward.call(this, ...args)
+      // TODO for now it is ok, as call returns undeined,
+      // but when refPaths will start working, will have to rewrite
+      return forward.call(this, ...args);
     }
   }
 ]) {

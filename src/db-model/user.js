@@ -4,6 +4,7 @@ const User = thinky.createModel('User', {
   name: type.string(),
   image: type.string(),
   email: type.string(),
+  social: type.string(),
   balance: type.number(),
   city: type.string()
 });

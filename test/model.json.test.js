@@ -136,4 +136,22 @@ describe('Falcor requests', function describe() {
       expect(res).to.be.undefined; // eslint-disable-line
     });
   });
+  it('should create a user with a call function and return its values', function test() {
+    const args = {
+      email: 'almas.akchabayev@gmail.com',
+      name: 'Almas',
+      image: 'https://besmart.kz/media/events/images/249/124782.jpg.292x171_q100_crop-smart.jpg',
+      social: 'facebook|123123123123'
+    };
+    return model.call(
+      ['users', 'create'],
+      [args],
+      [['email'], ['id']]
+    ).
+    then(res => {
+      console.log(res, 'response');
+      const usersById = res.json.usersById;
+      expect(usersById[Object.keys(usersById)[0]].email).to.equal('test@gmail.com');
+    });
+  });
 });
