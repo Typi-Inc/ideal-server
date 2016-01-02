@@ -49,6 +49,12 @@ class ClientRouter extends Router.createClass([
       return forward.call(this, pathSet);
     }
   }
+  {
+    route: 'users.create',
+    call(...args) {
+      return forward.call(this, ...args)
+    }
+  }
 ]) {
   constructor(serverModel, user) {
     super();

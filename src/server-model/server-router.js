@@ -90,5 +90,20 @@ export default Router.createClass([
         value: $ref(['dealsById', doc.id])
       }));
     }
+  },
+  {
+    route: 'users.create',
+    call(callPath, args, localFields, fatQuery) {
+      const user = new thinky.User({
+        email: args.email,
+        name: args.name,
+        image: args.picture
+        social: args.userId
+        // TODO city
+      });
+
+      return Observable.from(user.save()).
+        map(user => )
+    }
   }
 ]);
