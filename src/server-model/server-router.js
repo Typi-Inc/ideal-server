@@ -101,12 +101,19 @@ export default Router.createClass([
         social: args[0].userId
         // TODO city
       });
-      return Observable.fromPromise(user.save()).
-        map(() => [
+      return Observable.fromPromise(thinky.models.User.filter({social: args.userId}).then(docs => {
+        if (!docs) {
+          return user.save();
+        }
+        return new Promise((resolve, reject) => {
+          resolve(docs[0]);
+        });
+      })).
+        map(doc => console.log(doc) || [
           {
             // TODO refPaths, thisPaths not working https://github.com/Netflix/falcor/issues/681
             path: ['users', 'new'],
-            value: $ref(['usersById', user.id])
+            value: $ref(['usersById', doc.id])
           }
         ]);
     }
