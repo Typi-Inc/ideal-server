@@ -59,6 +59,14 @@ class ClientRouter extends Router.createClass([
         call(...args).
         map(json => toPathValues(json));
     }
+  },
+  {
+    route: 'like.toggle',
+    call(...args) {
+      return this.serverModel.
+        call(...args).
+        map(json => toPathValues(json));
+    }
   }
 ]) {
   constructor(serverModel, user) {

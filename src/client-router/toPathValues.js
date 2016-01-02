@@ -32,7 +32,9 @@ export default json => {
       }
     } else if (value && (value.constructor === Array)) {
       const uuidRegex = /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/;
-      if (value[1] && _.isString(value[1]) && value[1].match(uuidRegex)) {
+      if (value[1] && _.isString(value[1]) &&
+        (value[1].match(uuidRegex) || _.startsWith(value[1], 'auth0|') || _.startsWith(value[1], 'facebook|'))
+      ) {
         pushValue($ref(value));
       } else {
         pushValue($atom(value));

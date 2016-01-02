@@ -95,27 +95,51 @@ export default Router.createClass([
     route: 'users.create',
     call(callPath, args) {
       const user = new thinky.models.User({
+        id: args[0].userId,
         email: args[0].email,
         name: args[0].name,
-        image: args[0].picture,
-        social: args[0].userId
+        image: args[0].picture
         // TODO city
       });
-      return Observable.fromPromise(thinky.models.User.filter({social: args.userId}).then(docs => {
-        if (!docs) {
+      return Observable.fromPromise(thinky.models.User.filter({ id: args[0].userId }).then(docs => {
+        if (_.isEmpty(docs)) {
           return user.save();
         }
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           resolve(docs[0]);
         });
       })).
-        map(doc => console.log(doc) || [
+        map(doc => [
           {
             // TODO refPaths, thisPaths not working https://github.com/Netflix/falcor/issues/681
             path: ['users', 'new'],
             value: $ref(['usersById', doc.id])
           }
         ]);
+    }
+  },
+  {
+    route: 'like.toggle',
+    call(callPath, args) {
+      return Observable.fromPromise(
+        thinky.models.Like.filter({ idDeal: args[0], idLiker: args[1] }).
+          then(docs => {
+            if (!_.isEmpty(docs)) {
+              return docs[0].delete();
+            }
+            const like = new thinky.models.Like({
+              idDeal: args[0],
+              idLiker: args[1]
+            });
+            return like.save();
+          })
+      ).
+      map(() => [
+        {
+          path: ['dealsById', args[0]],
+          invalidate: true
+        }
+      ]);
     }
   }
 ]);
