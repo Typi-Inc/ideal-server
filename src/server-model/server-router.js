@@ -121,10 +121,12 @@ export default Router.createClass([
   {
     route: 'like.toggle',
     call(callPath, args) {
+      let deleted;
       return Observable.fromPromise(
         thinky.models.Like.filter({ idDeal: args[0], idLiker: args[1] }).
           then(docs => {
             if (!_.isEmpty(docs)) {
+              deleted=true
               return docs[0].delete();
             }
             const like = new thinky.models.Like({
@@ -134,10 +136,14 @@ export default Router.createClass([
             return like.save();
           })
       ).
-      map(() => [
+      map((doc) =>console.log(deleted,'hehe')||[
+        {
+          path: ['dealsById', args[0],'likes',`where:idDeal=${args[0]},idLiker={{me}}`,'count'],
+          value: deleted?0:1
+        },
         {
           path: ['dealsById', args[0]],
-          invalidate: true
+          invalidated: true
         }
       ]);
     }

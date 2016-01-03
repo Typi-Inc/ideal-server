@@ -24,6 +24,12 @@ export function byIdRoutes(model) {
     {
       route: `${name}ById[{keys:ids}][{keys:hasManyFields}][{keys:filtersAndSorts}].count`, // .comments.count
       get(pathSet) {
+        pathSet.filtersAndSorts = pathSet.filtersAndSorts.map(filterAndSort => {
+          if (filterAndSort.indexOf('{{me}}') > -1) {
+            filterAndSort = filterAndSort.replace('{{me}}', this.userId);
+          }
+          return filterAndSort;
+        });
         return forward.call(this, pathSet);
       }
     }

@@ -15,10 +15,10 @@ class ClientRouter extends Router.createClass([
   {
     route: 'user',
     get() {
-      if (this.user) {
+      if (this.userId) {
         return {
           path: ['user'],
-          value: $ref(['usersById', this.user.id])
+          value: $ref(['usersById', this.userId])
         };
       }
       return {
@@ -63,16 +63,20 @@ class ClientRouter extends Router.createClass([
   {
     route: 'like.toggle',
     call(...args) {
+      args[1].push(this.userId);
       return this.serverModel.
         call(...args).
-        map(json => toPathValues(json));
+        map(json => toPathValues(json).concat([{
+          path: ['dealsById', args[1][0]],
+          invalidated: true
+        }]));
     }
   }
 ]) {
-  constructor(serverModel, user) {
+  constructor(serverModel, userId) {
     super();
     this.serverModel = serverModel;
-    this.user = user;
+    this.userId = userId;
   }
 }
 

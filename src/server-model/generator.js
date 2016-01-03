@@ -185,7 +185,7 @@ function modelHasManyAndHasAndBelongsToManyJoinsToRoutes(model, r) {
                 filterAndSortString
               }))
           ).
-          map(({ docId, joinedCount, joinName, filterAndSortString }) => ({
+          map(({ docId, joinedCount, joinName, filterAndSortString }) => console.log([`${name}ById`, docId, joinName, filterAndSortString, 'count'], joinedCount) || ({
             path: [`${name}ById`, docId, joinName, filterAndSortString, 'count'],
             value: joinedCount
           }));
