@@ -136,9 +136,31 @@ export default Router.createClass([
             return like.save();
           })
       ).
-      map((doc) =>console.log(deleted,'hehe')||[
+      flatMap(() => {
+        return Observable.fromPromise(
+          thinky.models.Deal.get(args[0]).getJoin({
+            likes: {
+              _apply: seq => seq.count(),
+              _array: false
+            }
+          })
+        );
+      }).
+      map(doc => [
+        // {
+        //   path: ['dealsById', args[0],'likes',`where:idDeal=${args[0]},idLiker={{me}}`,'count'],
+        //   value: deleted?0:1
+        // },
+        // {
+        //   path: ['dealsById', args[0],'likes',`where:idDeal=${args[0]},idLiker={{me}}`,'count'],
+        //   value: deleted?0:1
+        // },
         {
-          path: ['dealsById', args[0],'likes',`where:idDeal=${args[0]},idLiker={{me}}`,'count'],
+          path: ['dealsById', args[0], 'likes', 'sort:createdAt=desc', 'count'],
+          value: doc.likes
+        },
+        {
+          path: ['dealsById', args[0], 'likedByUser', '{{me}}'],
           value: deleted?0:1
         },
         {
@@ -146,6 +168,26 @@ export default Router.createClass([
           invalidated: true
         }
       ]);
+    }
+  },
+  {
+    route: 'dealsById[{keys:dealIds}].likedByUser[{keys:userIds}]',
+    get(pathSet) {
+      // TODO what if several userIds?
+      const { dealIds, userIds } = pathSet;
+      return Observable.fromPromise(
+          thinky.models.Deal.getAll(...dealIds).pluck('id').getJoin({
+            likes: {
+              _apply: seq => seq.filter({ idLiker: userIds[0] }).count(),
+              _array: false
+            }
+          })
+        ).flatMap(docs =>
+          Observable.from(docs)
+        ).map(doc => ({
+          path: ['dealsById', doc.id, 'likedByUser', userIds[0]],
+          value: doc.likes
+        }))
     }
   }
 ]);

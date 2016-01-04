@@ -71,6 +71,21 @@ class ClientRouter extends Router.createClass([
           invalidated: true
         }]));
     }
+  },
+  {
+    route: 'dealsById[{keys:dealIds}].likedByUser[{keys:userIds}]',
+    get(pathSet) {
+      if (pathSet.userIds[0].indexOf('{{me}}') > -1) {
+        pathSet[3][0] = pathSet[3][0].replace('{{me}}', this.userId);
+      }
+      return this.serverModel.
+        get([...pathSet]).
+        map(json => toPathValues(json).map(pathValue => {
+          pathValue.path[3] = '{{me}}';
+          console.log(pathValue);
+          return pathValue;
+        }));
+    }
   }
 ]) {
   constructor(serverModel, userId) {

@@ -17,7 +17,7 @@ const authenticate = jwt({ // eslint-disable-line
 router.all(
   '/model.json',
   authenticate,
-  falcorExpress.dataSourceRoute(req => new ClientRouter(serverModel, req.user.sub))
+  falcorExpress.dataSourceRoute(req => new ClientRouter(serverModel, req.user ? req.user.sub : null))
 );
 
 export default router;
