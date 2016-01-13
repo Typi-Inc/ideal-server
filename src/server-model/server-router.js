@@ -126,7 +126,7 @@ export default Router.createClass([
         thinky.models.Like.filter({ idDeal: args[0], idLiker: args[1] }).
           then(docs => {
             if (!_.isEmpty(docs)) {
-              deleted=true
+              deleted = true;
               return docs[0].delete();
             }
             const like = new thinky.models.Like({
@@ -161,7 +161,7 @@ export default Router.createClass([
         },
         {
           path: ['dealsById', args[0], 'likedByUser', '{{me}}'],
-          value: deleted?0:1
+          value: deleted ? 0 : 1
         },
         {
           path: ['dealsById', args[0]],
@@ -187,7 +187,7 @@ export default Router.createClass([
         ).map(doc => ({
           path: ['dealsById', doc.id, 'likedByUser', userIds[0]],
           value: doc.likes
-        }))
+        }));
     }
   }
 ]);

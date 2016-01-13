@@ -5,7 +5,7 @@ import HttpDataSource from 'falcor-http-datasource';
 import routes from '../src/express-routes';
 import db from '../src/db-model';
 
-describe('Falcor requests', function describe() {
+describe('model.json Falcor requests', function describe() {
   let server;
   let model;
   let testDeal1;

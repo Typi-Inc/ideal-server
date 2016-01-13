@@ -82,7 +82,6 @@ class ClientRouter extends Router.createClass([
         get([...pathSet]).
         map(json => toPathValues(json).map(pathValue => {
           pathValue.path[3] = '{{me}}';
-          console.log(pathValue);
           return pathValue;
         }));
     }

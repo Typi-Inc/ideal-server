@@ -4,7 +4,7 @@
   "description": "IDeal server",
   "main": "index.js",
   "scripts": {
-    "start": "JWT_SECRET=JAWhZdFEquxP6tQb4dtpTU0TZ36JQbowBKOUBzkUsCaWO0F3ML2ktweRcGc2fmlH node src/index",
+    "start": "JWT_SECRET=4YjZ0ezrE-4uLf2YcCHv-WJqppF0W0HynNzmNdG_bnkeQuGBet7h-9Rj5x6w00zt AUDIENCE=TWpDN8HdEaplEXJYemOcNYSXi64oQmf8 node src/index",
     "test": "npm run lint && npm run mocha",
     "gen": "babel-node ./tools/generate-data",
     "del": "babel-node ./tools/delete-data",

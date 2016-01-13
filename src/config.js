@@ -6,3 +6,4 @@ export const THINKY = {
   db: process.env.THINKY_DB || 'test'
 };
 export const JWT_SECRET = process.env.JWT_SECRET || 'test';
+export const AUDIENCE = process.env.AUDIENCE || 'test';
