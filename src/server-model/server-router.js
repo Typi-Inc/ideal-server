@@ -147,14 +147,6 @@ export default Router.createClass([
         );
       }).
       map(doc => [
-        // {
-        //   path: ['dealsById', args[0],'likes',`where:idDeal=${args[0]},idLiker={{me}}`,'count'],
-        //   value: deleted?0:1
-        // },
-        // {
-        //   path: ['dealsById', args[0],'likes',`where:idDeal=${args[0]},idLiker={{me}}`,'count'],
-        //   value: deleted?0:1
-        // },
         {
           path: ['dealsById', args[0], 'likes', 'sort:createdAt=desc', 'count'],
           value: doc.likes
@@ -188,6 +180,32 @@ export default Router.createClass([
           path: ['dealsById', doc.id, 'likedByUser', userIds[0]],
           value: doc.likes
         }));
+    }
+  },
+  {
+    route: 'referral.create',
+    call(callPath, args) {
+      const referral = new thinky.models.Referral({
+        idReferree: args[0].idReferree,
+        idDeal: args[0].idDeal
+      });
+      return Observable.fromPromise(
+        thinky.models.Referral.filter({ idReferree: args[0].idReferree }).then(docs => {
+          if (_.isEmpty(docs)) {
+            return referral.save();
+          }
+          return new Promise(resolve => {
+            resolve(docs[0]);
+          });
+        })
+      ).
+        map(doc => [
+          {
+            // TODO refPaths, thisPaths not working https://github.com/Netflix/falcor/issues/681
+            path: ['referral'],
+            value: $ref(['referralsById', doc.id])
+          }
+        ]);
     }
   }
 ]);

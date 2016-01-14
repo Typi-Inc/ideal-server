@@ -1,6 +1,14 @@
 import thinky, { type } from './thinky';
+import { createToken } from '../utils';
+import { HOME_URL } from '../config';
 const Referral = thinky.createModel('Referral', {
-  token: type.string(),
+  url: type.virtual().default(function generateToken() {
+    const token = createToken({
+      idDeal: this.idDeal,
+      idReferree: this.idReferree
+    });
+    return `${HOME_URL}/token/${token}`;
+  }),
   idReferree: type.string(),
   idDeal: type.string()
 });
@@ -11,4 +19,5 @@ Referral.ready().then(() => {
   Referral.hasAndBelongsToMany(thinky.models.User, 'clickers', 'id', 'id');
   Referral.hasAndBelongsToMany(thinky.models.User, 'buyers', 'id', 'id');
 });
+
 export default Referral;

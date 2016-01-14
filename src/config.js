@@ -7,3 +7,4 @@ export const THINKY = {
 };
 export const JWT_SECRET = process.env.JWT_SECRET || 'test';
 export const AUDIENCE = process.env.AUDIENCE || 'test';
+export const HOME_URL = process.env.DOMAIN || `http://localhost:${PORT}`;

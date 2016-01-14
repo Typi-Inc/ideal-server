@@ -11,9 +11,8 @@ const $error = falcor.Model.error;
 
 class ClientRouter extends Router.createClass([
   ...clientRoutesFromModels(thinky),
-  // TODO do i need to invalidate this path?
   {
-    route: 'user',
+    route: 'me',
     get() {
       if (this.userId) {
         return {
@@ -63,6 +62,14 @@ class ClientRouter extends Router.createClass([
   {
     route: 'like.toggle',
     call(...args) {
+      if (!this.userId) {
+        return [
+          {
+            path: ['like'],
+            value: $error('User is not loggen in')
+          }
+        ];
+      }
       args[1].push(this.userId);
       return this.serverModel.
         call(...args).
@@ -84,6 +91,25 @@ class ClientRouter extends Router.createClass([
           pathValue.path[3] = '{{me}}';
           return pathValue;
         }));
+    }
+  },
+  {
+    route: 'referral.create',
+    call(...args) {
+      // TODO for now it is ok, as call returns undeined,
+      // but when refPaths will start working, will have to rewrite
+      if (!this.userId) {
+        return [
+          {
+            path: ['referral'],
+            value: $error('User is not loggen in')
+          }
+        ];
+      }
+      args[1][0].idReferree = this.userId;
+      return this.serverModel.
+        call(...args).
+        map(json => toPathValues(json));
     }
   }
 ]) {

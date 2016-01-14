@@ -1,4 +1,4 @@
-// import { expect } from 'chai';
+import { expect } from 'chai';
 import falcor from 'falcor';
 // import _ from 'lodash';
 import ServerRouter from '../../src/server-model/server-router';
@@ -30,7 +30,7 @@ describe('call test with like', function describe() {
       [deal.id, user.id]
     ).
     then(res => {
-      console.log(res);
+      expect(res.json.dealsById[deal.id].likedByUser['{{me}}']).to.equal(1);
     });
   });
 });
