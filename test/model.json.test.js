@@ -1,9 +1,12 @@
 import { expect } from 'chai';
 import express from 'express';
+import bodyParser from 'body-parser';
 import falcor from 'falcor';
 import HttpDataSource from 'falcor-http-datasource';
 import routes from '../src/express-routes';
 import db from '../src/db-model';
+import { HOME_URL } from '../src/config';
+import { verifyToken } from '../src/utils';
 
 describe('model.json Falcor requests', function describe() {
   let server;
@@ -19,9 +22,11 @@ describe('model.json Falcor requests', function describe() {
   let commentFiltersAndSorts2;
   let commentFiltersAndSorts3;
   let commentFiltersAndSorts4;
+  let user;
   before(function before() {
     const app = express();
     app.use(routes);
+    app.use(bodyParser.urlencoded({ extended: false }));
     model = new falcor.Model({
       source: new HttpDataSource('http://localhost:1337/model.json')
     });
@@ -72,6 +77,9 @@ describe('model.json Falcor requests', function describe() {
     commentFiltersAndSorts4 = new db.models.Comment({
       text: 'cho'
     });
+    user = new db.models.User({
+      email: '1@gmail.com'
+    });
     testDeal1.comments = [comment1, comment2, comment3];
     testDeal1.business = business1;
     testDealFiltersAndSorts.comments = [
@@ -83,15 +91,17 @@ describe('model.json Falcor requests', function describe() {
     return testDeal1.saveAll({ business: true, comments: true }).then(() =>
       testDeal2.saveAll().then(() =>
         testDealFiltersAndSorts.saveAll({ comments: true }).then(() =>
-          new Promise((resolve, reject) => {
-            server = app.listen(1337, err => {
-              if (err) {
-                reject(err);
-                return;
-              }
-              resolve();
-            });
-          })
+          user.save().then(() =>
+            new Promise((resolve, reject) => {
+              server = app.listen(1337, err => {
+                if (err) {
+                  reject(err);
+                  return;
+                }
+                resolve();
+              });
+            })
+          )
         )
       )
     );
@@ -100,7 +110,9 @@ describe('model.json Falcor requests', function describe() {
     server.close();
     return testDeal1.deleteAll({ business: true, comments: true }).then(() =>
       testDeal2.deleteAll().then(() =>
-        testDealFiltersAndSorts.deleteAll({ comments: true })
+        testDealFiltersAndSorts.deleteAll({ comments: true }).then(() =>
+          user.deleteAll()
+        )
       )
     );
   });
@@ -149,9 +161,26 @@ describe('model.json Falcor requests', function describe() {
       [['email'], ['id']]
     ).
     then(res => {
-      console.log(res, 'response');
       const usersById = res.json.usersById;
       expect(usersById[Object.keys(usersById)[0]].email).to.equal('test@gmail.com');
+    });
+  });
+  it('should create a referral with a call function and return its values', function test() {
+    const args = {
+      idDeal: testDeal1.id,
+      idReferree: user.id
+    };
+    return model.call(
+      ['referral', 'create'],
+      [args],
+      ['url', 'idDeal', 'idReferree']
+    ).
+    then(function success(res) {
+      const token = res.json.referral.url.replace(`${HOME_URL}/token/`, '');
+      return verifyToken(token);
+    }).then(function success(decoded) {
+      expect(decoded.idDeal).to.equal(testDeal1.id);
+      expect(decoded.idReferree).to.equal(user.id);
     });
   });
 });

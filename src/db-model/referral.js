@@ -1,9 +1,9 @@
 import thinky, { type } from './thinky';
-import { createToken } from '../utils';
+import { signToken } from '../utils';
 import { HOME_URL } from '../config';
 const Referral = thinky.createModel('Referral', {
   url: type.virtual().default(function generateToken() {
-    const token = createToken({
+    const token = signToken({
       idDeal: this.idDeal,
       idReferree: this.idReferree
     });
