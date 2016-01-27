@@ -6,7 +6,7 @@ import routes from './express-routes';
 import log from './logger';
 import { PORT, NODE_ENV } from './config';
 
-const publicPath = path.resolve(__dirname, '..', 'public');
+const publicPath = path.resolve(__dirname, 'public');
 const app = express();
 
 // configure logging
