@@ -64,7 +64,7 @@ describe('tagsByText serverModel', function describe() {
     return model.get(['tagsByText', 'coffe', { from: 0, to: 20 }]).
     then(res => {
       const result = _.values(res.json.tagsByText.coffe);
-      expect(result.length).to.equal(4);
+      expect(result.length).to.equal(5); // - $__path
       expect(result[0][1]).to.equal(testTag1.id);
       expect(result[3][1]).to.equal(testTag3.id);
     });

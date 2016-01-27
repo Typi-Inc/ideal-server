@@ -7,6 +7,8 @@ import thinky from '../db-model';
 import falcor from 'falcor';
 
 const $ref = falcor.Model.ref;
+// const $atom = falcor.Model.atom;
+// const $error = falcor.Model.error;
 
 export default Router.createClass([
   ...routesFromModels(thinky),

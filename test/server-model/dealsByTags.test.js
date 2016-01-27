@@ -73,7 +73,7 @@ describe('dealsByTags serverModel', function describe() {
     then(res => {
       const query = [testTag2.id, testTag3.id].join(',');
       const result = _.values(res.json.dealsByTags[query]);
-      expect(result.length).to.equal(3);
+      expect(result.length).to.equal(4); // - $__path
       expect(result[0][1]).to.equal(testDeal4.id);
       expect(result[1][1]).to.equal(testDeal3.id);
       expect(result[2][1]).to.equal(testDeal2.id);

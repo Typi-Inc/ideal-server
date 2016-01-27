@@ -4,7 +4,7 @@ import _ from 'lodash';
 import ServerRouter from '../../src/server-model/server-router';
 import db from '../../src/db-model';
 
-describe('dealsById', function describe() {
+describe('dealsById serverModel', function describe() {
   let model;
   let testDeal1;
   let testDeal2;
@@ -126,29 +126,12 @@ describe('dealsById', function describe() {
     then(res => {
       const edges =
         res.json.dealsById[testDeal1.id].comments['sort:createdAt=desc'].edges;
-      expect(_.values(edges).length).to.equal(1);
+      expect(_.values(edges).length).to.equal(2); // - $__path
       expect(edges[0][0]).to.equal('commentsById');
       expect(edges[0][1]).to.equal(comment3.id);
       expect(edges[0].length).to.equal(2);
     });
   });
-  // it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-  //   comments.edges[0]`, () =>
-  //   model.get([
-  //     'dealsById',
-  //     testDeal1.id,
-  //     'comments',
-  //     'edges',
-  //     0
-  //   ]).
-  //   then(res => {
-  //     const edges = res.json.dealsById[testDeal1.id].comments.edges;
-  //     expect(_.values(edges).length).to.equal(1);
-  //     expect(edges[0][0]).to.equal('commentsById');
-  //     expect(edges[0][1]).to.equal(comment3.id);
-  //     expect(edges[0].length).to.equal(2);
-  //   })
-  // );
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
     comments['sort:createdAt=desc'].edges[0..1]`, function test() {
     return model.get([
@@ -162,7 +145,7 @@ describe('dealsById', function describe() {
     then(res => {
       const edges =
         res.json.dealsById[testDeal1.id].comments['sort:createdAt=desc'].edges;
-      expect(_.values(edges).length).to.equal(2);
+      expect(_.values(edges).length).to.equal(3); // - $__path
       expect(edges[0][0]).to.equal('commentsById');
       expect(edges[0][1]).to.equal(comment3.id);
       expect(edges[0].length).to.equal(2);
@@ -171,20 +154,6 @@ describe('dealsById', function describe() {
       expect(edges[1].length).to.equal(2);
     });
   });
-  // it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-  //   comments.edges[0..1]`, () =>
-  //   model.get(['dealsById', testDeal1.id, 'comments', 'edges', { from: 0, to: 1 }]).
-  //   then(res => {
-  //     const edges = res.json.dealsById[testDeal1.id].comments.edges;
-  //     expect(_.values(edges).length).to.equal(2);
-  //     expect(edges[0][0]).to.equal('commentsById');
-  //     expect(edges[0][1]).to.equal(comment3.id);
-  //     expect(edges[0].length).to.equal(2);
-  //     expect(edges[1][0]).to.equal('commentsById');
-  //     expect(edges[1][1]).to.equal(comment2.id);
-  //     expect(edges[1].length).to.equal(2);
-  //   })
-  // );
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
     comments['sort:createdAt=desc'].edges[1..2]`, function test() {
     return model.get([
@@ -198,7 +167,7 @@ describe('dealsById', function describe() {
     then(res => {
       const edges =
         res.json.dealsById[testDeal1.id].comments['sort:createdAt=desc'].edges;
-      expect(_.values(edges).length).to.equal(2);
+      expect(_.values(edges).length).to.equal(3); // - $__path
       expect(edges[1][0]).to.equal('commentsById');
       expect(edges[1][1]).to.equal(comment2.id);
       expect(edges[1].length).to.equal(2);
@@ -207,20 +176,6 @@ describe('dealsById', function describe() {
       expect(edges[2].length).to.equal(2);
     });
   });
-  // it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-  //   comments['sort:createdAt=desc'].edges[1..2]`, () =>
-  //   model.get(['dealsById', testDeal1.id, 'comments', 'edges', { from: 1, to: 2 }]).
-  //   then(res => {
-  //     const edges = res.json.dealsById[testDeal1.id].comments.edges;
-  //     expect(_.values(edges).length).to.equal(2);
-  //     expect(edges[1][0]).to.equal('commentsById');
-  //     expect(edges[1][1]).to.equal(comment2.id);
-  //     expect(edges[1].length).to.equal(2);
-  //     expect(edges[2][0]).to.equal('commentsById');
-  //     expect(edges[2][1]).to.equal(comment1.id);
-  //     expect(edges[2].length).to.equal(2);
-  //   })
-  // );
   it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
     comments['sort:createdAt=desc'].edges[0] when there are no comments`, function test() {
     return model.get([
@@ -235,19 +190,6 @@ describe('dealsById', function describe() {
       expect(res).to.be.undefined; // eslint-disable-line
     });
   });
-  // it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-  //   comments.edges[0] when there are no comments`, () =>
-  //   model.get([
-  //     'dealsById',
-  //     testDeal2.id,
-  //     'comments',
-  //     'edges',
-  //     { from: 1, to: 2 }
-  //   ]).
-  //   then(res => {
-  //     expect(res).to.be.undefined; // eslint-disable-line
-  //   })
-  // );
   it(`dealsById[
     '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
     '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
@@ -264,7 +206,7 @@ describe('dealsById', function describe() {
       expect(res.json.dealsById[testDeal2.id]).to.be.undefined; // eslint-disable-line
       const edges =
         res.json.dealsById[testDeal1.id].comments['sort:createdAt=desc'].edges;
-      expect(_.values(edges).length).to.equal(2);
+      expect(_.values(edges).length).to.equal(3); // - $__path
       expect(edges[1][0]).to.equal('commentsById');
       expect(edges[1][1]).to.equal(comment2.id);
       expect(edges[1].length).to.equal(2);
@@ -273,29 +215,6 @@ describe('dealsById', function describe() {
       expect(edges[2].length).to.equal(2);
     });
   });
-  // it(`dealsById[
-  //   '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
-  //   '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
-  // ].comments.edges[1..2] both undefined and normal`, () =>
-  //   model.get([
-  //     'dealsById',
-  //     [testDeal1.id, testDeal2.id],
-  //     'comments',
-  //     'edges',
-  //     { from: 1, to: 2 }
-  //   ]).
-  //   then(res => {
-  //     expect(res.json.dealsById[testDeal2.id]).to.be.undefined; // eslint-disable-line
-  //     const edges = res.json.dealsById[testDeal1.id].comments.edges;
-  //     expect(_.values(edges).length).to.equal(2);
-  //     expect(edges[1][0]).to.equal('commentsById');
-  //     expect(edges[1][1]).to.equal(comment2.id);
-  //     expect(edges[1].length).to.equal(2);
-  //     expect(edges[2][0]).to.equal('commentsById');
-  //     expect(edges[2][1]).to.equal(comment1.id);
-  //     expect(edges[2].length).to.equal(2);
-  //   })
-  // );
   it(`dealsById[
     '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
     '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
@@ -316,22 +235,6 @@ describe('dealsById', function describe() {
       expect(count).to.equal(3);
     });
   });
-  // it(`dealsById[
-  //   '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
-  //   '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
-  // ].comments.count`, () =>
-  //   model.get([
-  //     'dealsById',
-  //     [testDeal1.id, testDeal2.id],
-  //     'comments',
-  //     'count'
-  //   ]).
-  //   then(res => {
-  //     expect(res.json.dealsById[testDeal2.id].comments.count).to.equal(0); // eslint-disable-line
-  //     const count = res.json.dealsById[testDeal1.id].comments.count;
-  //     expect(count).to.equal(3);
-  //   })
-  // );
   it(`dealsById[
     '1f6527f3-c99d-4ff0-b31f-09cb793b966f',
     '2f6527f3-c99d-4ff0-b31f-09cb793b966f'
@@ -363,7 +266,7 @@ describe('dealsById', function describe() {
     then(res => {
       const edges = res.json.dealsById[testDealFiltersAndSorts.id].
         comments['where:text=yo&sort:createdAt=desc'].edges;
-      expect(_.values(edges).length).to.equal(3);
+      expect(_.values(edges).length).to.equal(4); // $__path
       expect(edges[0][0]).to.equal('commentsById');
       expect(edges[0][1]).to.equal(commentFiltersAndSorts3.id);
       expect(edges[0].length).to.equal(2);
@@ -388,7 +291,8 @@ describe('dealsById', function describe() {
     then(res => {
       const edges = res.json.dealsById[testDealFiltersAndSorts.id].
         comments['where:text=yo,idAuthor=1&sort:createdAt=desc'].edges;
-      expect(_.values(edges).length).to.equal(2);
+      console.log(edges);
+      expect(_.values(edges).length).to.equal(3); // $__path
       expect(edges[0][0]).to.equal('commentsById');
       expect(edges[0][1]).to.equal(commentFiltersAndSorts1.id);
       expect(edges[0].length).to.equal(2);
@@ -430,7 +334,7 @@ describe('dealsById', function describe() {
     then(res => {
       const edges0 = res.json.dealsById[testDealFiltersAndSorts.id].
         comments['where:text=yo,idAuthor=1&sort:createdAt=desc'].edges;
-      expect(_.values(edges0).length).to.equal(2);
+      expect(_.values(edges0).length).to.equal(3); // $__path
       expect(edges0[0][0]).to.equal('commentsById');
       expect(edges0[0][1]).to.equal(commentFiltersAndSorts1.id);
       expect(edges0[0].length).to.equal(2);
@@ -439,7 +343,7 @@ describe('dealsById', function describe() {
       expect(edges0[1].length).to.equal(2);
       const edges1 = res.json.dealsById[testDealFiltersAndSorts.id].
         comments['where:text=yo,idAuthor=1&sort:createdAt=asc'].edges;
-      expect(_.values(edges1).length).to.equal(2);
+      expect(_.values(edges1).length).to.equal(3); // $__path
       expect(edges1[0][0]).to.equal('commentsById');
       expect(edges1[0][1]).to.equal(commentFiltersAndSorts2.id);
       expect(edges1[0].length).to.equal(2);

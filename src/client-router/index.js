@@ -52,7 +52,7 @@ class ClientRouter extends Router.createClass([
   {
     route: 'users.create',
     call(...args) {
-      // TODO for now it is ok, as call returns undeined,
+      // TODO for now it is ok, as call returns undefined,
       // but when refPaths will start working, will have to rewrite
       return this.serverModel.
         call(...args).

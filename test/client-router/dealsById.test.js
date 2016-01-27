@@ -127,27 +127,6 @@ describe('dealsById clientRouter', function describe() {
         expect(comment.length).to.equal(2);
       });
   });
-  // it(`dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].
-  //   comments.edges[0]
-  //   completes with path to other part of JSONG`, () =>
-  //   model.
-  //     get([
-  //       'dealsById',
-  //       [
-  //         '1f6527f3-c99d-4ff0-b31f-09cb793b966f'
-  //       ],
-  //       'comments',
-  //       'edges',
-  //       '0'
-  //     ]).
-  //     then(res => {
-  //       const comment = res.json.
-  //         dealsById['1f6527f3-c99d-4ff0-b31f-09cb793b966f'].comments.edges[0];
-  //       expect(comment[0]).to.equal('commentsById');
-  //       expect(comment[1]).to.equal('26bca56f-7fb4-469b-8815-1edfd557d244');
-  //       expect(comment.length).to.equal(2);
-  //     })
-  // );
   it(`dealsById['16bca56f-7fb4-469b-8815-1edfd557d244'].
     comments['sort:createdAt=desc'].edges[0]
     completes with undefined without error`, function test() {
@@ -262,8 +241,8 @@ describe('dealsById clientRouter', function describe() {
         const comments2 = res.json.
           dealsById['2f6527f3-c99d-4ff0-b31f-09cb793b966f'].
           comments['sort:createdAt=desc'].edges;
-        expect(_.values(comments1).length).to.equal(2);
-        expect(_.values(comments2).length).to.equal(2);
+        expect(_.values(comments1).length).to.equal(3); // $__path
+        expect(_.values(comments2).length).to.equal(3); // $__path
         expect(comments1[0][0]).to.equal('commentsById');
         expect(comments1[0][1]).to.equal('26bca56f-7fb4-469b-8815-1edfd557d244');
         expect(comments1[1][0]).to.equal('commentsById');
