@@ -56,7 +56,7 @@
     // Countdown
     // To change date, simply edit: var endDate = "June 26, 2015 20:39:00";
     $(function() {
-      var endDate = "June 26, 2015 20:39:00";
+      var endDate = "February 21, 2016 16:00:00";
       $('.lj-countdown .row').countdown({
         date: endDate,
         render: function(data) {
