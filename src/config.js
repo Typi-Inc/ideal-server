@@ -1,4 +1,4 @@
-export const PORT = process.env.PORT || 8080;
+export const PORT = process.env.PORT || 80;
 export const NODE_ENV = process.env.NODE_ENV || 'development';
 export const THINKY = {
   host: process.env.THINKY_HOST || 'localhost',
