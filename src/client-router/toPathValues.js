@@ -34,7 +34,7 @@ function getValue(thing) {
   if (!thing) {
     return;
   }
-  if (thing.constructor === String) {
+  if (thing.constructor === String || _.isNumber(thing)) {
     return thing;
   }
   if (thing.constructor === Array) {
@@ -49,6 +49,7 @@ function getValue(thing) {
   if (thing.constructor === Object) {
     return $atom(thing);
   }
+  return thing;
 }
 
 function* all(pathSet, pointer = 0, path = []) {

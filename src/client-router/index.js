@@ -80,17 +80,28 @@ class ClientRouter extends Router.createClass([
     }
   },
   {
+    route: 'dealsById[{keys:dealIds}].likedByMe',
+    get(pathSet) {
+      if (!this.userId) {
+        return Observable.
+          fromArray(pathSet.dealIds).
+          map(id => ({
+            path: ['dealsById', id, 'likedByMe'],
+            value: 0
+          }));
+      }
+      return Observable.
+        fromArray(pathSet.dealIds).
+        map(id => ({
+          path: ['dealsById', id, 'likedByMe'],
+          value: $ref(['dealsById', id, 'likedByUser', this.userId])
+        }));
+    }
+  },
+  {
     route: 'dealsById[{keys:dealIds}].likedByUser[{keys:userIds}]',
     get(pathSet) {
-      if (pathSet.userIds[0].indexOf('{{me}}') > -1) {
-        pathSet[3][0] = pathSet[3][0].replace('{{me}}', this.userId);
-      }
-      return this.serverModel.
-        get([...pathSet]).
-        map(json => toPathValues(json).map(pathValue => {
-          pathValue.path[3] = '{{me}}';
-          return pathValue;
-        }));
+      return forward.call(this, pathSet);
     }
   },
   {

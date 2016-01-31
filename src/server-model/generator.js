@@ -15,7 +15,6 @@ function modelFieldsToRoute(model) {
   return {
     route: `${name}ById[{keys:ids}][${fields}]`,
     get(pathSet) {
-      console.log(pathSet);
       const { ids } = pathSet;
       return Observable.fromPromise(
         model.getAll(...ids).pluck(...pathSet[2].concat('id'))
