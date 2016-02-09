@@ -71,7 +71,10 @@ class ClientRouter extends Router.createClass([
       args[0].idAuthor = this.userId;
       return this.serverModel.
         call(callPath, args, refPaths, thisPaths).
-        then(json => toPathValues(json, [['comments', 'new', refPaths]]));
+        then(json => toPathValues(json, [['comments', 'new', refPaths]]).concat({
+          path: ['dealsById', args[0].idDeal, 'comments'],
+          invalidated: true
+        }));
     }
   },
   {

@@ -146,6 +146,10 @@ export default Router.createClass([
             // TODO refPaths, thisPaths not working https://github.com/Netflix/falcor/issues/681
             path: ['comments', 'new'],
             value: $ref(['commentsById', doc.id])
+          },
+          {
+            path: ['dealsById', args[0].idDeal, 'comments'],
+            invalidated: true
           }
         ]);
     }
