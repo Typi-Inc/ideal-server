@@ -1,5 +1,6 @@
 import { Observable } from 'rx';
 import falcor from 'falcor';
+import _ from 'lodash';
 import {
   arrayToFalcorString,
   getJoinInfo,
@@ -25,15 +26,21 @@ function modelFieldsToRoute(model) {
       map(doc =>
         pathSet[2].map(field => {
           const value = doc[field];
+          if (_.isDate(value)) {
+            return {
+              path: [`${name}ById`, doc.id, field],
+              value: value.toString()
+            };
+          }
           if (value.constructor === Array) {
             return {
               path: [`${name}ById`, doc.id, field],
-              value: $atom(doc[field])
+              value: $atom(value)
             };
           }
           return {
             path: [`${name}ById`, doc.id, field],
-            value: doc[field]
+            value
           };
         })
       );

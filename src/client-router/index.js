@@ -60,6 +60,18 @@ class ClientRouter extends Router.createClass([
     }
   },
   {
+    route: 'comments.create',
+    call(...args) {
+      if (!this.userId) {
+        return new Error('cannot create comments if not logged in');
+      }
+      args[1][0].idAuthor = this.userId;
+      return this.serverModel.
+        call(...args).
+        map(json => toPathValues(json));
+    }
+  },
+  {
     route: 'like.toggle',
     call(...args) {
       if (!this.userId) {

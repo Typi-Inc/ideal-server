@@ -121,6 +121,24 @@ export default Router.createClass([
     }
   },
   {
+    route: 'comments.create',
+    call(callPath, args) {
+      const comment = new thinky.models.Comment({
+        text: args[0].text,
+        idDeal: args[0].idDeal,
+        idAuthor: args[0].idAuthor
+      });
+      return Observable.fromPromise(comment.save()).
+        map(doc => [
+          {
+            // TODO refPaths, thisPaths not working https://github.com/Netflix/falcor/issues/681
+            path: ['comments', 'new'],
+            value: $ref(['commentsById', doc.id])
+          }
+        ]);
+    }
+  },
+  {
     route: 'like.toggle',
     call(callPath, args) {
       let deleted;
