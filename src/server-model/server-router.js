@@ -8,7 +8,7 @@ import falcor from 'falcor';
 
 const $ref = falcor.Model.ref;
 // const $atom = falcor.Model.atom;
-// const $error = falcor.Model.error;
+const $error = falcor.Model.error;
 
 export default Router.createClass([
   ...routesFromModels(thinky),
@@ -97,13 +97,13 @@ export default Router.createClass([
     route: 'users.create',
     call(callPath, args) {
       const user = new thinky.models.User({
-        id: args[0].userId,
+        id: args[0].user_id,
         email: args[0].email,
         name: args[0].name,
         image: args[0].picture
         // TODO city
       });
-      return Observable.fromPromise(thinky.models.User.filter({ id: args[0].userId }).then(docs => {
+      return Observable.fromPromise(thinky.models.User.filter({ id: args[0].user_id }).then(docs => {
         if (_.isEmpty(docs)) {
           return user.save();
         }
@@ -128,8 +128,20 @@ export default Router.createClass([
         idDeal: args[0].idDeal,
         idAuthor: args[0].idAuthor
       });
-      return Observable.fromPromise(comment.save()).
-        map(doc => [
+      return Observable.fromPromise(thinky.models.User.filter({ id: args[0].idAuthor }).then(docs => {
+        if (_.isEmpty(docs)) {
+          return new Promise(resolve => {
+            resolve({ error: 'user with this is was not found in the database' });
+          });
+        }
+        return comment.save();
+      })).
+        map(doc => doc.error ? [
+          {
+            path: ['comments', 'new'],
+            value: $error(doc.error)
+          }
+        ] : [
           {
             // TODO refPaths, thisPaths not working https://github.com/Netflix/falcor/issues/681
             path: ['comments', 'new'],

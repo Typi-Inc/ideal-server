@@ -36,8 +36,6 @@ describe('atoms test serverModel', function describe() {
     return model.get(['businessesById', business.id, ['phones', 'schedule']]).
     then(res => {
       const { phones, schedule } = res.json.businessesById[business.id];
-      console.log(phones);
-      console.log(schedule);
       expect(phones.length).to.equal(business.phones.length);
       for (let i = 0; i < phones.length; i++) {
         expect(phones[i]).to.equal(business.phones[i]);

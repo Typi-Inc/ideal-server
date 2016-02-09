@@ -51,24 +51,27 @@ class ClientRouter extends Router.createClass([
   },
   {
     route: 'users.create',
-    call(...args) {
+    call(callPath, args, refPaths, thisPaths) {
       // TODO for now it is ok, as call returns undefined,
       // but when refPaths will start working, will have to rewrite
       return this.serverModel.
-        call(...args).
-        map(json => toPathValues(json));
+        call(callPath, args, refPaths, thisPaths).
+        then(json => toPathValues(json, [['users', 'new', refPaths]]));
     }
   },
   {
     route: 'comments.create',
-    call(...args) {
+    call(callPath, args, refPaths, thisPaths) {
       if (!this.userId) {
-        return new Error('cannot create comments if not logged in');
+        return {
+          path: 'comments.new',
+          value: $error('user must be logged in')
+        };
       }
-      args[1][0].idAuthor = this.userId;
+      args[0].idAuthor = this.userId;
       return this.serverModel.
-        call(...args).
-        map(json => toPathValues(json));
+        call(callPath, args, refPaths, thisPaths).
+        then(json => toPathValues(json, [['comments', 'new', refPaths]]));
     }
   },
   {

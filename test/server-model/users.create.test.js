@@ -4,7 +4,7 @@ import falcor from 'falcor';
 import ServerRouter from '../../src/server-model/server-router';
 // import db from '../../src/db-model';
 
-describe('call test with deal', function describe() {
+describe('call test with user', function describe() {
   let model;
   before(function before() {
     model = new falcor.Model({

@@ -291,7 +291,6 @@ describe('dealsById serverModel', function describe() {
     then(res => {
       const edges = res.json.dealsById[testDealFiltersAndSorts.id].
         comments['where:text=yo,idAuthor=1&sort:createdAt=desc'].edges;
-      console.log(edges);
       expect(_.values(edges).length).to.equal(3); // $__path
       expect(edges[0][0]).to.equal('commentsById');
       expect(edges[0][1]).to.equal(commentFiltersAndSorts1.id);
