@@ -2,6 +2,7 @@ import path from 'path';
 import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import routes from './express-routes';
 import log from './logger';
 import { PORT, NODE_ENV } from './config';
@@ -23,7 +24,9 @@ if (NODE_ENV === 'development') {
 
 app.use(express.static(publicPath));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors({ origin: 'http://localhost:8080', credentials: true }));
 app.use(routes);
+
 
 // error handler
 app.use((err, req, res) => {
